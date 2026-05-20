@@ -102,7 +102,12 @@ export default function Home() {
       : Array.from(group.keys());
 
     return orderedCategories
-      .map((category) => ({ category, products: group.get(category) || [] }))
+      .map((category) => ({
+        category,
+        products: [...(group.get(category) || [])].sort((a, b) =>
+          a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })
+        ),
+      }))
       .filter((block) => block.products.length > 0);
   }, [allProducts, allCategories]);
 

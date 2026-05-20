@@ -1,5 +1,6 @@
 ﻿import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useMemo } from 'react';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
 import { useCartStore } from '../store/cartStore';
 import ProductCard from '../components/ProductCard';
@@ -67,6 +68,8 @@ export default function ProductosPage() {
       query = query.order('price', { ascending: false });
     } else if (sortBy === 'newest') {
       query = query.order('created_at', { ascending: false });
+    } else {
+      query = query.order('category', { ascending: true }).order('name', { ascending: true });
     }
     
     const { data, error } = await query;
@@ -141,6 +144,30 @@ export default function ProductosPage() {
     setPriceRange([0, maxPrice]);
     setSortBy('');
   };
+
+  const groupedProducts = useMemo(() => {
+    const group = new Map<string, Product[]>();
+
+    products.forEach((product) => {
+      const list = group.get(product.category) || [];
+      list.push(product);
+      group.set(product.category, list);
+    });
+
+    const orderedCategories = [
+      ...categories.filter((category) => group.has(category)),
+      ...Array.from(group.keys())
+        .filter((category) => !categories.includes(category))
+        .sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' })),
+    ];
+
+    return orderedCategories.map((category) => ({
+      category,
+      products: [...(group.get(category) || [])].sort((a, b) =>
+        a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })
+      ),
+    }));
+  }, [products, categories]);
 
   const handleQuickView = (e: React.MouseEvent, product: Product) => {
     e.preventDefault();
@@ -284,19 +311,28 @@ export default function ProductosPage() {
             <div className="flex justify-center items-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
             </div>
-          ) : products.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {products.map((product) => (
-                <div key={product.id} className="transform-gpu">
-                  <ProductCard
-                    product={product}
-                    onAddToCart={addItem}
-                    onQuickView={(product) => {
-                      setQuickViewProduct(product);
-                      setIsQuickViewOpen(true);
-                    }}
-                  />
-                </div>
+          ) : groupedProducts.length > 0 ? (
+            <div className="space-y-10">
+              {groupedProducts.map((block) => (
+                <section key={block.category}>
+                  <h3 className="font-brand mb-4 text-2xl font-bold text-[#C026FF] drop-shadow-[0_0_8px_rgba(192,38,255,0.55)]">
+                    {block.category}
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {block.products.map((product) => (
+                      <div key={product.id} className="transform-gpu">
+                        <ProductCard
+                          product={product}
+                          onAddToCart={addItem}
+                          onQuickView={(product) => {
+                            setQuickViewProduct(product);
+                            setIsQuickViewOpen(true);
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </section>
               ))}
             </div>
           ) : (
