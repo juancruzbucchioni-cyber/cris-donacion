@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="bg-black/65 backdrop-blur-sm pt-12 pb-6 border-t border-[#C026FF]/30">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
             <img src="/branding/logo.png" alt="Kazuty Partz" className="h-12 w-auto mb-3" />
             <p className="text-gray-200 text-sm mb-4">Tienda especializada en repuestos y estetica para motos.</p>
@@ -13,16 +13,6 @@ export default function Footer() {
               <Instagram className="h-5 w-5" />
               <a href="https://instagram.com/kazuty_parts" target="_blank" rel="noreferrer" className="hover:underline">@kazuty_parts</a>
             </div>
-          </div>
-
-          <div>
-            <h3 className="font-brand text-lg font-semibold text-[#C026FF] mb-4">Navegacion</h3>
-            <ul className="space-y-2">
-              <li><Link to="/products" className="text-gray-200 hover:text-[#C026FF] transition-colors link-hover">Productos</Link></li>
-              <li><Link to="/categories" className="text-gray-200 hover:text-[#C026FF] transition-colors link-hover">Categorias</Link></li>
-              <li><Link to="/about" className="text-gray-200 hover:text-[#C026FF] transition-colors link-hover">Nosotros</Link></li>
-              <li><Link to="/contact" className="text-gray-200 hover:text-[#C026FF] transition-colors link-hover">Contacto</Link></li>
-            </ul>
           </div>
 
           <div>

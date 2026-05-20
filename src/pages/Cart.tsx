@@ -4,7 +4,7 @@ import { useCartStore } from '../store/cartStore';
 import { Link } from 'react-router-dom';
 import { formatARS } from '../lib/currency';
 
-type PaymentMethod = 'efectivo' | 'transferencia' | 'mercado_pago' | 'tarjeta';
+type PaymentMethod = 'efectivo' | 'transferencia';
 
 const WHATSAPP_PHONE = '543534128474';
 
@@ -14,10 +14,6 @@ function paymentLabel(method: PaymentMethod) {
       return 'Efectivo';
     case 'transferencia':
       return 'Transferencia';
-    case 'mercado_pago':
-      return 'Mercado Pago';
-    case 'tarjeta':
-      return 'Tarjeta';
     default:
       return method;
   }
@@ -156,8 +152,6 @@ export default function Cart() {
                 className="w-full p-2 border border-primary/40 rounded-md bg-black/60 text-white focus:border-primary focus:ring-primary"
               >
                 <option value="transferencia">Transferencia</option>
-                <option value="mercado_pago">Mercado Pago</option>
-                <option value="tarjeta">Tarjeta</option>
                 <option value="efectivo">Efectivo</option>
               </select>
             </div>
