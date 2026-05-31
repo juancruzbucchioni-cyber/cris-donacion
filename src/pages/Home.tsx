@@ -111,6 +111,8 @@ export default function Home() {
       .filter((block) => block.products.length > 0);
   }, [allProducts, allCategories]);
 
+  const categoriesWithProducts = groupedProducts.map((block) => block.category);
+
   return (
     <section className="container py-10">
       <div className="relative min-h-[72vh] w-full rounded-lg border border-primary/20 bg-black/35 backdrop-blur-sm">
@@ -154,8 +156,8 @@ export default function Home() {
       <div className="mt-16 w-full">
         <h2 className="font-brand text-3xl font-bold text-[#C026FF] drop-shadow-[0_0_10px_rgba(192,38,255,0.55)] mb-8">Todas las categorias</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {(allCategories.length > 0
-            ? allCategories
+          {(categoriesWithProducts.length > 0
+            ? categoriesWithProducts
             : ['Accesorios', 'Escapes', 'Plasticos', 'Transmision', 'Electronica', 'Frenos', 'Iluminacion', 'Indumentaria']
           ).map((categoria) => (
             <Link

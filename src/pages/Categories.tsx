@@ -47,11 +47,13 @@ export default function Categorias() {
         }
       });
 
-      const normalizedCategories: Category[] = (categoriesData || []).map((category) => ({
-        name: category.name,
-        count: productCountByCategory.get(category.name) || 0,
-        image_url: category.image_url || fallbackImageByCategory.get(category.name) || '/branding/logo.png',
-      }));
+      const normalizedCategories: Category[] = (categoriesData || [])
+        .map((category) => ({
+          name: category.name,
+          count: productCountByCategory.get(category.name) || 0,
+          image_url: category.image_url || fallbackImageByCategory.get(category.name) || '/branding/logo.png',
+        }))
+        .filter((category) => category.count > 0);
 
       setCategorias(normalizedCategories);
       setLoading(false);

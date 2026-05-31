@@ -95,11 +95,17 @@ export default function ProductosPage() {
       .eq('activo', true)
       .order('orden', { ascending: true })
       .order('created_at', { ascending: false });
+
+    const { data: productsData, error: productsError } = await supabase
+      .from('products')
+      .select('category');
       
-    if (error) {
-      console.error(error);
+    if (error || productsError) {
+      console.error(error || productsError);
     } else {
-      const uniqueCategorias = [...new Set(data.map(item => item.name))];
+      const categoriesWithProducts = new Set((productsData || []).map((item) => item.category));
+      const uniqueCategorias = [...new Set(data.map(item => item.name))]
+        .filter((category) => categoriesWithProducts.has(category));
       setCategorias(uniqueCategorias);
     }
   };

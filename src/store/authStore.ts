@@ -8,6 +8,7 @@ interface UserPerfil {
   full_name?: string | null;
   address?: string | null;
   phone?: string | null;
+  is_admin?: boolean | null;
 }
 
 interface AuthState {
