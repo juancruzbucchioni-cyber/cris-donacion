@@ -4,7 +4,6 @@ import { ShoppingCart, Star, ArrowLeft, Info, Package, Check, X, Truck, Shield }
 import { supabase } from '../lib/supabase';
 import { useCartStore } from '../store/cartStore';
 import { Product, Review, ProductImage } from '../types/supabase';
-import { useAuthStore } from '../store/authStore';
 import ProductGallery from '../components/ProductGallery';
 import { formatARS } from '../lib/currency';
 
@@ -15,17 +14,13 @@ export default function ProductDetail() {
   const [reviews, setResenas] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
-  const [reviewText, setReviewText] = useState('');
-  const [rating, setRating] = useState(5);
   const [relatedProductos, setRelatedProductos] = useState<Product[]>([]);
   const [addedToCart, setAddedToCart] = useState(false);
-  const [activeTab, setActiveTab] = useState('description');
   const [selectedColor, setSelectedColor] = useState<string>('Negro');
   
   const addItem = useCartStore((state) => state.addItem);
   const cartItems = useCartStore((state) => state.items);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
-  const { user } = useAuthStore();
 
   useEffect(() => {
     async function fetchProductAndResenas() {
@@ -145,87 +140,6 @@ export default function ProductDetail() {
 
   const handleQuantityChange = (newCantidad: number) => {
     setQuantity(newCantidad);
-  };
-
-  const submitReview = async () => {
-    if (!user || !product || !reviewText) return;
-    
-    try {
-      const { error } = await supabase
-        .from('reviews')
-        .insert({
-          product_id: product.id,
-          user_id: user.id,
-          rating,
-          comment: reviewText
-        });
-        
-      if (error) {
-        console.error('Error submitting review:', error);
-        alert('No se pudo enviar la reseña');
-      } else {
-        // Refresh reviews
-        const { data, error: fetchError } = await supabase
-          .from('reviews')
-          .select(`
-            id,
-            product_id,
-            user_id,
-            rating,
-            comment,
-            created_at
-          `)
-          .eq('product_id', product.id)
-          .order('created_at', { ascending: false });
-          
-        if (!fetchError) {
-          setResenas(data || []);
-          setReviewText('');
-          setRating(5);
-        }
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
-  // Generate mock specifications based on product category
-  const getProductEspecificaciones = () => {
-    if (!product) return [];
-    
-    const baseSpecs = [
-      { name: 'Marca', value: 'Kazuty Partz' },
-      { name: 'Modelo', value: `KP-${product.id.substring(0, 6).toUpperCase()}` },
-      { name: 'Garantia', value: '6 meses por falla de fabrica' },
-      { name: 'Origen', value: 'Argentina' },
-    ];
-    
-    const categorySpecs = {
-      'Electronics': [
-        { name: 'Alimentacion', value: 'Bateria recargable' },
-        { name: 'Autonomia', value: 'Hasta 12 horas' },
-        { name: 'Conectividad', value: 'Bluetooth 5.0, Wi-Fi' },
-        { name: 'Dimensiones', value: '5.8 x 2.8 x 0.3 pulgadas' },
-        { name: 'Peso', value: '180 g' },
-        { name: 'Material', value: 'Aluminio y vidrio' },
-      ],
-      'Home & Office': [
-        { name: 'Material', value: 'Madera premium y metal' },
-        { name: 'Dimensiones', value: '24 x 18 x 30 pulgadas' },
-        { name: 'Peso', value: '5.2 kg' },
-        { name: 'Armado requerido', value: 'Armado minimo' },
-        { name: 'Cuidado', value: 'Limpiar con paño humedo' },
-      ],
-      'Accessories': [
-        { name: 'Material', value: 'Cuero y metal' },
-        { name: 'Dimensiones', value: '8.5 x 4.7 x 0.8 pulgadas' },
-        { name: 'Peso', value: '120 g' },
-        { name: 'Opciones de color', value: 'Negro, Marron, Azul' },
-        { name: 'Cuidado', value: 'Limpiar con acondicionador para cuero' },
-      ]
-    };
-    
-    return [...baseSpecs, ...(categorySpecs[product.category as keyof typeof categorySpecs] || [])];
   };
 
   if (loading) {
@@ -405,220 +319,6 @@ export default function ProductDetail() {
               <span className="text-sm text-gray-200">Satisfaccion garantizada</span>
             </div>
           </div>
-        </div>
-      </div>
-      
-      {/* Product Details Tabs */}
-      <div className="mt-12">
-        <div className="border-b border-gray-200 dark:border-gray-700">
-          <nav className="flex space-x-8">
-            <button
-              onClick={() => setActiveTab('description')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'description'
-                  ? 'border-primary text-primary'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
-              }`}
-            >
-              Descripcion
-            </button>
-            <button
-              onClick={() => setActiveTab('specifications')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'specifications'
-                  ? 'border-primary text-primary'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
-              }`}
-            >
-              Especificaciones
-            </button>
-            <button
-              onClick={() => setActiveTab('reviews')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'reviews'
-                  ? 'border-primary text-primary'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
-              }`}
-            >
-              Resenas ({reviews.length})
-            </button>
-          </nav>
-        </div>
-        
-        <div className="py-6">
-          {/* Descripcion Tab */}
-          {activeTab === 'description' && (
-            <div className="bg-black/55 border border-[#C026FF]/30 p-6 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold text-white mb-4">
-                Descripcion del producto
-              </h2>
-              <p className="text-gray-200 mb-4">
-                {product.description}
-              </p>
-              <p className="text-gray-200">
-                Disfruta la mejor combinacion entre estilo, rendimiento y durabilidad con {product.name}. 
-                Este producto de {product.category.toLowerCase()} fue pensado para brindar calidad y excelente valor.
-              </p>
-              
-              <div className="mt-6">
-                <h3 className="text-lg font-medium text-[#C026FF] mb-3">
-                  Caracteristicas
-                </h3>
-                <ul className="list-disc list-inside space-y-2 text-gray-200">
-                  <li>Materiales de alta calidad para mayor duracion</li>
-                  <li>Diseño moderno y excelente terminacion</li>
-                  <li>Uso versatil para el dia a dia</li>
-                  <li>Facil mantenimiento y limpieza</li>
-                  <li>Formato practico y funcional</li>
-                </ul>
-              </div>
-              
-              <div className="mt-6">
-                <h3 className="text-lg font-medium text-[#C026FF] mb-3">
-                  Que incluye
-                </h3>
-                <ul className="list-disc list-inside space-y-2 text-gray-200">
-                  <li>1 x {product.name}</li>
-                  <li>Manual de uso y cuidado</li>
-                  <li>Tarjeta de garantia</li>
-                  {product.category === 'Electronics' && <li>Cable de carga y adaptador</li>}
-                  {product.category === 'Home & Office' && <li>Kit de armado y accesorios</li>}
-                  {product.category === 'Accessories' && <li>Estuche de proteccion</li>}
-                </ul>
-              </div>
-            </div>
-          )}
-          
-          {/* Especificaciones Tab */}
-          {activeTab === 'specifications' && (
-            <div className="bg-black/55 border border-[#C026FF]/30 p-6 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold text-white mb-4">
-                Especificaciones del producto
-              </h2>
-              
-              <div className="overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {getProductEspecificaciones().map((spec, index) => (
-                      <tr key={index} className={index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-700/50' : ''}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white w-1/3">
-                          {spec.name}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">
-                          {spec.value}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              
-              <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <h3 className="text-lg font-medium text-[#C026FF] mb-2 flex items-center">
-                  <Info className="h-5 w-5 mr-2 text-primary" />
-                  Informacion adicional
-                </h3>
-                <p className="text-gray-200">
-                  Las especificaciones pueden variar levemente segun lote o modelo.
-                </p>
-              </div>
-            </div>
-          )}
-          
-          {/* Resenas Tab */}
-          {activeTab === 'reviews' && (
-            <div>
-              {/* Add Review Form */}
-              {user ? (
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-8">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                    Escribir una resena
-                  </h3>
-                  
-                  <div className="mb-4">
-                    <label className="block text-gray-200 mb-2">
-                      Puntuacion
-                    </label>
-                    <div className="flex">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <button
-                          key={star}
-                          type="button"
-                          onClick={() => setRating(star)}
-                          className="focus:outline-none"
-                        >
-                          <Star
-                            className={`h-6 w-6 ${
-                              star <= rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                            }`}
-                          />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div className="mb-4">
-                    <label htmlFor="review" className="block text-gray-700 dark:text-gray-300 mb-2">
-                      Tu resena
-                    </label>
-                    <textarea
-                      id="review"
-                      rows={4}
-                      value={reviewText}
-                      onChange={(e) => setReviewText(e.target.value)}
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                      placeholder="Contanos tu experiencia con este producto..."
-                    ></textarea>
-                  </div>
-                  
-                  <button
-                    onClick={submitReview}
-                    disabled={!reviewText}
-                    className="bg-primary text-white px-6 py-2 rounded-md hover:bg-magenta-600 transition-colors disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed btn-hover-scale"
-                  >
-                    Enviar resena
-                  </button>
-                </div>
-              ) : (
-                <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-8">
-                  <p className="text-gray-700 dark:text-gray-300">
-                    Inicia sesion en <Link to="/auth" className="text-primary hover:underline link-hover">tu cuenta</Link> para dejar una reseña.
-                  </p>
-                </div>
-              )}
-              
-              {/* Resenas List */}
-              {reviews.length > 0 ? (
-                <div className="space-y-6">
-                  {reviews.map((review) => (
-                    <div key={review.id} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                      <div className="flex justify-between mb-2">
-                        <div className="flex items-center">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <Star
-                              key={star}
-                              className={`h-5 w-5 ${
-                                star <= review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                              }`}
-                            />
-                          ))}
-                        </div>
-                        <span className="text-sm text-gray-500 dark:text-gray-400">
-                          {new Date(review.created_at).toLocaleDateString()}
-                        </span>
-                      </div>
-                      <p className="text-gray-700 dark:text-gray-300 mb-2">{review.comment}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Usuario {review.user_id.substring(0, 8)}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-gray-600 dark:text-gray-300">Aun no hay resenas. Se la primera persona en opinar sobre este producto.</p>
-              )}
-            </div>
-          )}
         </div>
       </div>
       
