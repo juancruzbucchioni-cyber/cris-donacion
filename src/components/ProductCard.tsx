@@ -3,7 +3,7 @@ import { Product } from '../types/supabase';
 import { useEffect, memo, useState } from 'react';
 import { useCartStore } from '../store/cartStore';
 import { CartState } from '../types/cart';
-import { formatARS } from '../lib/currency';
+import { formatProductPrice } from '../lib/currency';
 
 interface ProductCardProps {
   product: Product;
@@ -18,6 +18,7 @@ const ProductCard = memo(function ProductCard({
 }: ProductCardProps) {
   const cartItems = useCartStore((state: CartState) => state.items);
   const [isInCart, setIsInCart] = useState(false);
+  const isOnRequest = product.price <= 0;
 
   useEffect(() => {
     const cartItem = cartItems.find((item: { product_id: string }) => item.product_id === product.id);
@@ -27,6 +28,12 @@ const ProductCard = memo(function ProductCard({
   const handleAddToCart = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
+
+    if (isOnRequest) {
+      const message = `Hola Elvio Monteiro, quiero consultar por ${product.name}. Modelo de moto: _____. Color: _____.`;
+      window.open(`https://wa.me/5493755745255?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+      return;
+    }
 
     const existingItem = cartItems.find((item: { product_id: string }) => item.product_id === product.id);
     if (existingItem) {
@@ -58,14 +65,14 @@ const ProductCard = memo(function ProductCard({
           decoding="async"
         />
         <div className="absolute left-4 top-4 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-400 text-center text-[11px] font-black uppercase leading-tight text-black">
-          Stock
+          {isOnRequest ? 'Encargo' : 'Stock'}
         </div>
-        {product.stock <= 5 && product.stock > 0 && (
+        {!isOnRequest && product.stock <= 5 && product.stock > 0 && (
           <div className="absolute left-4 top-20 rounded-full bg-emerald-400 px-3 py-2 text-xs font-black uppercase text-black">
             Quedan {product.stock}
           </div>
         )}
-        {product.stock === 0 && (
+        {!isOnRequest && product.stock === 0 && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/55">
             <span className="rounded-md bg-red-500 px-3 py-1 text-sm font-bold text-white">
               Sin stock
@@ -86,25 +93,25 @@ const ProductCard = memo(function ProductCard({
         </p>
         <div className="mt-4">
           <p className="text-3xl font-black leading-none text-white">
-            {formatARS(Math.round(product.price))}
+            {formatProductPrice(Math.round(product.price))}
           </p>
           <p className="mt-2 text-sm font-black uppercase leading-tight text-emerald-400">
-            Precio especial por transferencia
+            {isOnRequest ? 'Producto por encargo' : 'Precio especial por transferencia'}
           </p>
         </div>
         <div className="mt-auto grid grid-cols-2 gap-3 pt-5">
           <button
             onClick={handleAddToCart}
-            disabled={product.stock === 0}
+            disabled={!isOnRequest && product.stock === 0}
             className={`flex items-center justify-center gap-2 rounded-full py-3 text-sm font-black uppercase transition-all duration-300 active:scale-95 ${
-              product.stock > 0
+              product.stock > 0 || isOnRequest
                 ? 'bg-white text-black hover:bg-gray-200'
                 : 'cursor-not-allowed bg-gray-500/60 text-gray-300'
             }`}
-            aria-label={product.stock > 0 ? (isInCart ? 'Actualizar carrito' : 'Agregar al carrito') : 'Sin stock'}
+            aria-label={isOnRequest ? 'Consultar por WhatsApp' : product.stock > 0 ? (isInCart ? 'Actualizar carrito' : 'Agregar al carrito') : 'Sin stock'}
           >
             <ShoppingCart className="h-5 w-5" />
-            <span>{product.stock > 0 ? (isInCart ? 'Listo' : 'Comprar') : 'Sin stock'}</span>
+            <span>{isOnRequest ? 'Consultar' : product.stock > 0 ? (isInCart ? 'Listo' : 'Comprar') : 'Sin stock'}</span>
           </button>
           <button
             onClick={handleQuickView}

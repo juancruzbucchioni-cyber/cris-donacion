@@ -92,7 +92,6 @@ export default function ProductosPage() {
     const { data, error } = await supabase
       .from('categories')
       .select('name')
-      .eq('activo', true)
       .order('orden', { ascending: true })
       .order('created_at', { ascending: false });
 

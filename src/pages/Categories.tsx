@@ -19,7 +19,6 @@ export default function Categorias() {
       const { data: categoriesData, error: categoriesError } = await supabase
         .from('categories')
         .select('name, image_url, activo, orden, created_at')
-        .eq('activo', true)
         .order('orden', { ascending: true })
         .order('created_at', { ascending: false });
 

@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabase';
 import { useCartStore } from '../store/cartStore';
 import { Product, Review, ProductImage } from '../types/supabase';
 import ProductGallery from '../components/ProductGallery';
-import { formatARS } from '../lib/currency';
+import { formatARS, formatProductPrice } from '../lib/currency';
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
@@ -21,6 +21,7 @@ export default function ProductDetail() {
   const addItem = useCartStore((state) => state.addItem);
   const cartItems = useCartStore((state) => state.items);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
+  const isOnRequest = product ? product.price <= 0 : false;
 
   useEffect(() => {
     async function fetchProductAndResenas() {
@@ -121,6 +122,12 @@ export default function ProductDetail() {
 
   const handleAddToCart = () => {
     if (!product) return;
+    if (product.price <= 0) {
+      const message = `Hola Elvio Monteiro, quiero consultar por ${product.name}. Modelo de moto: _____. Color: ${selectedColor || '_____'}.`;
+      window.open(`https://wa.me/5493755745255?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
     const cartItemId = selectedColor ? `${product.id}::${selectedColor}` : product.id;
     
     if (addedToCart) {
@@ -206,7 +213,7 @@ export default function ProductDetail() {
           </div>
           
           <p className="text-3xl font-black text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.35)] mb-4">
-            {formatARS(Math.round(product.price))}
+            {formatProductPrice(Math.round(product.price))}
           </p>
           
           <div className="mb-6">
@@ -233,7 +240,9 @@ export default function ProductDetail() {
             </div>
             <p className="text-gray-200 mb-2">
               <span className="font-semibold">Disponibilidad:</span>{' '}
-              {product.stock > 0 ? (
+              {isOnRequest ? (
+                <span className="text-green-600 dark:text-green-400">Producto por encargo</span>
+              ) : product.stock > 0 ? (
                 <span className="text-green-600 dark:text-green-400">En stock ({product.stock} disponibles)</span>
               ) : (
                 <span className="text-red-600 dark:text-red-400">Sin stock</span>
@@ -265,7 +274,7 @@ export default function ProductDetail() {
           </div>
           
           {/* Quantity Selector */}
-          <div className="flex items-center mb-6">
+          {!isOnRequest && <div className="flex items-center mb-6">
             <label htmlFor="quantity" className="mr-4 text-gray-200">
               Cantidad:
             </label>
@@ -284,20 +293,20 @@ export default function ProductDetail() {
                 +
               </button>
             </div>
-          </div>
+          </div>}
           
           {/* Agregar al carrito Button */}
           <button
             onClick={handleAddToCart}
-            disabled={product.stock === 0}
+            disabled={!isOnRequest && product.stock === 0}
             className={`w-full flex items-center justify-center space-x-2 py-3 rounded-md btn-hover-scale ${
-              product.stock > 0
+              product.stock > 0 || isOnRequest
                 ? 'bg-primary hover:bg-white hover:text-black text-white'
                 : 'bg-gray-300 cursor-not-allowed text-gray-500'
             } transition-colors`}
           >
             <ShoppingCart className="w-5 h-5" />
-            <span>{product.stock > 0 ? (addedToCart ? 'Actualizar carrito' : 'Agregar al carrito') : 'Sin stock'}</span>
+            <span>{isOnRequest ? 'Consultar por WhatsApp' : product.stock > 0 ? (addedToCart ? 'Actualizar carrito' : 'Agregar al carrito') : 'Sin stock'}</span>
           </button>
           
           {/* Envio & Returns Info */}
@@ -345,7 +354,7 @@ export default function ProductDetail() {
                     {relatedProduct.name}
                   </h3>
                   <p className="text-white font-extrabold mt-2">
-                    {formatARS(Math.round(relatedProduct.price))}
+                    {formatProductPrice(Math.round(relatedProduct.price))}
                   </p>
                 </div>
               </Link>

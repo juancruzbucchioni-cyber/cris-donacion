@@ -81,7 +81,6 @@ export default function Home() {
       const { data: categoriesData, error: categoriesError } = await supabase
         .from('categories')
         .select('name')
-        .eq('activo', true)
         .order('orden', { ascending: true })
         .order('created_at', { ascending: false });
 

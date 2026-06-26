@@ -2,7 +2,7 @@
 import { X, ShoppingCart, Star, Plus, Minus } from 'lucide-react';
 import { Product } from '../types/supabase';
 import { useCartStore } from '../store/cartStore';
-import { formatARS } from '../lib/currency';
+import { formatProductPrice } from '../lib/currency';
 
 interface QuickViewProps {
   product: Product;
@@ -19,6 +19,7 @@ const QuickView = memo(function QuickView({ product, onClose }: QuickViewProps) 
   const cartItems = useCartStore((state) => state.items);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const [isInCart, setIsInCart] = useState(false);
+  const isOnRequest = product.price <= 0;
 
   useEffect(() => {
     setSelectedColor(availableColors[0]);
@@ -38,6 +39,13 @@ const QuickView = memo(function QuickView({ product, onClose }: QuickViewProps) 
   }, [product.id, cartItems, selectedColor]);
 
   const handleAddToCart = () => {
+    if (isOnRequest) {
+      const message = `Hola Elvio Monteiro, quiero consultar por ${product.name}. Modelo de moto: _____. Color: ${selectedColor || '_____'}.`;
+      window.open(`https://wa.me/5493755745255?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+      onClose();
+      return;
+    }
+
     const cartItemId = selectedColor ? `${product.id}::${selectedColor}` : product.id;
     if (isInCart) {
       // If already in cart, update quantity
@@ -95,7 +103,7 @@ const QuickView = memo(function QuickView({ product, onClose }: QuickViewProps) 
             </div>
             
             <p className="text-2xl font-black text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.35)] mb-4">
-              {formatARS(Math.round(product.price))}
+              {formatProductPrice(Math.round(product.price))}
             </p>
             
             <p className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-4">
@@ -137,7 +145,7 @@ const QuickView = memo(function QuickView({ product, onClose }: QuickViewProps) 
               </p>
             </div>
             
-            <div className="flex items-center mb-6">
+            {!isOnRequest && <div className="flex items-center mb-6">
               <label htmlFor="quantity" className="mr-4 text-gray-700 dark:text-gray-300">
                 Cantidad:
               </label>
@@ -156,20 +164,20 @@ const QuickView = memo(function QuickView({ product, onClose }: QuickViewProps) 
                   <Plus className="h-4 w-4" />
                 </button>
               </div>
-            </div>
+            </div>}
             
             <div className="mt-auto">
               <button
                 onClick={handleAddToCart}
-                disabled={product.stock === 0}
+                disabled={!isOnRequest && product.stock === 0}
                 className={`w-full flex items-center justify-center space-x-2 py-3 rounded-md transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ${
-                  product.stock > 0
+                  product.stock > 0 || isOnRequest
                     ? 'bg-primary hover:bg-white hover:text-black text-white'
                     : 'bg-gray-300 cursor-not-allowed text-gray-500'
                 }`}
               >
                 <ShoppingCart className="w-5 h-5" />
-                <span>{product.stock > 0 ? (isInCart ? 'Actualizar carrito' : 'Agregar al carrito') : 'Sin stock'}</span>
+                <span>{isOnRequest ? 'Consultar por WhatsApp' : product.stock > 0 ? (isInCart ? 'Actualizar carrito' : 'Agregar al carrito') : 'Sin stock'}</span>
               </button>
             </div>
           </div>
