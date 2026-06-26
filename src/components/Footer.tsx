@@ -3,6 +3,7 @@ import { Instagram, MapPin, Phone } from 'lucide-react';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/elvio.monteiro_1_2_3?igsh=MW5qZnRiZ3hibWYwMg==';
 const WHATSAPP_URL = 'https://wa.me/5493755745255?text=Hola%20Elvio%20Monteiro%2C%20quiero%20hacer%20una%20consulta.';
+const DEVELOPER_INSTAGRAM_URL = 'https://www.instagram.com/Juan.bucchioni';
 
 export default function Footer() {
   return (
@@ -40,7 +41,18 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 flex flex-col items-center justify-between border-t border-white/10 pt-6 md:flex-row">
-          <p className="text-sm text-gray-200">© {new Date().getFullYear()} Elvio Monteiro. Todos los derechos reservados. Desarrollado por Juan.bucchioni</p>
+          <p className="flex flex-wrap items-center justify-center gap-1 text-sm text-gray-200 md:justify-start">
+            <span>© {new Date().getFullYear()} Elvio Monteiro. Todos los derechos reservados. Desarrollado por</span>
+            <a
+              href={DEVELOPER_INSTAGRAM_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 font-semibold text-white hover:underline"
+            >
+              Juan.bucchioni
+              <Instagram className="h-4 w-4" />
+            </a>
+          </p>
           <div className="mt-4 flex space-x-6 md:mt-0">
             <Link to="/privacy" className="text-sm text-gray-200 hover:text-white hover:underline">Privacidad</Link>
             <Link to="/terms" className="text-sm text-gray-200 hover:text-white hover:underline">Términos</Link>
