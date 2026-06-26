@@ -58,7 +58,7 @@ export default function Navbar() {
               type="text"
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
-              placeholder="¿Qué estás buscando?"
+              placeholder="Que estas buscando?"
               className="h-12 w-full rounded-xl border border-white/60 bg-black px-5 pr-12 text-base text-white placeholder:text-white/75 focus:outline-none focus:ring-2 focus:ring-white"
             />
             <Search className="absolute right-4 top-1/2 h-7 w-7 -translate-y-1/2 text-white" />
