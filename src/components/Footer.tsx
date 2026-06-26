@@ -14,18 +14,18 @@ export default function Footer() {
             <p className="mt-3 max-w-sm text-sm text-gray-700">
               Tienda de repuestos, accesorios y soluciones para motos.
             </p>
-            <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 font-bold hover:text-red-600">
+            <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 font-bold hover:text-red-600 transition-colors">
               <Instagram className="h-5 w-5" />
               @elvio.monteiro_1_2_3
             </a>
           </div>
 
           <div>
-            <h3 className="font-brand mb-4 text-lg font-semibold">Categorias</h3>
+            <h3 className="font-brand mb-4 text-lg font-semibold">Categorías</h3>
             <ul className="space-y-2 text-gray-700">
-              <li><Link to="/products?category=Accesorios" className="hover:text-black">Accesorios</Link></li>
-              <li><Link to="/products?category=Escapes" className="hover:text-black">Escapes</Link></li>
-              <li><Link to="/products?category=Plasticos" className="hover:text-black">Plasticos</Link></li>
+              <li><Link to="/products?category=Accesorios" className="hover:text-black hover:underline">Accesorios</Link></li>
+              <li><Link to="/products?category=Escapes" className="hover:text-black hover:underline">Escapes</Link></li>
+              <li><Link to="/products?category=Plasticos" className="hover:text-black hover:underline">Plásticos</Link></li>
             </ul>
           </div>
 
@@ -33,8 +33,8 @@ export default function Footer() {
             <h3 className="font-brand mb-4 text-lg font-semibold">Contacto</h3>
             <ul className="space-y-3 text-gray-700">
               <li className="flex items-start"><MapPin className="mr-2 mt-0.5 h-5 w-5 text-black" /><span>Argentina</span></li>
-              <li className="flex items-center"><Phone className="mr-2 h-5 w-5 text-black" /><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="hover:text-black">+54 9 3755 74-5255</a></li>
-              <li className="flex items-center"><Instagram className="mr-2 h-5 w-5 text-black" /><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-black">@elvio.monteiro_1_2_3</a></li>
+              <li className="flex items-center"><Phone className="mr-2 h-5 w-5 text-black" /><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="hover:text-black hover:underline">+54 9 3755 74-5255</a></li>
+              <li className="flex items-center"><Instagram className="mr-2 h-5 w-5 text-black" /><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-black hover:underline">@elvio.monteiro_1_2_3</a></li>
             </ul>
           </div>
         </div>
@@ -42,9 +42,9 @@ export default function Footer() {
         <div className="mt-8 flex flex-col items-center justify-between border-t border-gray-200 pt-6 md:flex-row">
           <p className="text-sm text-gray-700">© {new Date().getFullYear()} Elvio Monteiro. Todos los derechos reservados. Desarrollado por Juan.bucchioni</p>
           <div className="mt-4 flex space-x-6 md:mt-0">
-            <Link to="/privacy" className="text-sm text-gray-700 hover:text-black">Privacidad</Link>
-            <Link to="/terms" className="text-sm text-gray-700 hover:text-black">Terminos</Link>
-            <Link to="/sitemap" className="text-sm text-gray-700 hover:text-black">Mapa del sitio</Link>
+            <Link to="/privacy" className="text-sm text-gray-700 hover:text-black hover:underline">Privacidad</Link>
+            <Link to="/terms" className="text-sm text-gray-700 hover:text-black hover:underline">Términos</Link>
+            <Link to="/sitemap" className="text-sm text-gray-700 hover:text-black hover:underline">Mapa del sitio</Link>
           </div>
         </div>
       </div>
