@@ -628,11 +628,11 @@ export default function CustomPanel() {
                 onChange={(event) => setBulkText(event.target.value)}
                 placeholder={`Escape GRS - Escapes - 250000 - 3 - rojo, negro\nKit cilindro 190 - Motor - 148373 - 2\nFiltro XR precio=35000 stock=6 categoria=Accesorios`}
               />
-              <div className="rounded-md border border-white/10 bg-white/5 p-3 text-xs text-gray-300">
-                <p className="font-bold text-white">Formato recomendado:</p>
-                <p>Producto - Categoria - Precio - Stock - Colores</p>
-                <p>Colores separados con coma: negro, blanco, rojo</p>
-                <p className="mt-1">Ordena automatico por categoria y nombre. Para dejarlo como consulta: usa precio 0.</p>
+              <div className="rounded-md border border-green-400/80 bg-green-500/15 p-3 text-xs text-green-100 shadow-[0_0_22px_rgba(34,197,94,0.22)]">
+                <p className="font-black uppercase tracking-wide text-green-300">Formato recomendado:</p>
+                <p className="mt-1 text-base font-black text-white">Producto - Categoria - Precio - Stock - Colores</p>
+                <p className="font-semibold text-green-100">Colores separados con coma: negro, blanco, rojo</p>
+                <p className="mt-1 text-green-200">Ordena automatico por categoria y nombre. Para dejarlo como consulta: usa precio 0.</p>
               </div>
               <button
                 type="button"
