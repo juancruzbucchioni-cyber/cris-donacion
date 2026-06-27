@@ -113,7 +113,7 @@ function parseBulkCatalog(text: string): BulkProductRow[] {
     .map((line) => line.trim().replace(/^[-*•]\s*/, ''))
     .filter(Boolean)
     .map((line) => {
-      const parts = line.split(/[|;\t]/).map((part) => part.trim()).filter(Boolean);
+      const parts = line.split(/\s+-\s+|[|;\t]/).map((part) => part.trim()).filter(Boolean);
 
       if (parts.length >= 3) {
         return {
@@ -626,11 +626,12 @@ export default function CustomPanel() {
                 className={`${fieldClass} min-h-36 font-mono text-xs`}
                 value={bulkText}
                 onChange={(event) => setBulkText(event.target.value)}
-                placeholder={`Escape GRS | Escapes | 250000 | 3 | Rojo, Negro\nKit cilindro 190 | Motor | 148373 | 2\nFiltro XR precio=35000 stock=6 categoria=Accesorios`}
+                placeholder={`Escape GRS - Escapes - 250000 - 3 - rojo, negro\nKit cilindro 190 - Motor - 148373 - 2\nFiltro XR precio=35000 stock=6 categoria=Accesorios`}
               />
               <div className="rounded-md border border-white/10 bg-white/5 p-3 text-xs text-gray-300">
                 <p className="font-bold text-white">Formato recomendado:</p>
-                <p>Producto | Categoria | Precio | Stock | Colores</p>
+                <p>Producto - Categoria - Precio - Stock - Colores</p>
+                <p>Colores separados con coma: negro, blanco, rojo</p>
                 <p className="mt-1">Ordena automatico por categoria y nombre. Para dejarlo como consulta: usa precio 0.</p>
               </div>
               <button
