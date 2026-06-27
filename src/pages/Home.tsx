@@ -208,7 +208,7 @@ export default function Home() {
               Ir a Instagram
             </a>
             <a
-              href="https://wa.me/54935341284744?text=Hola%20Kazuty%20Parts%2C%20quiero%20hacer%20una%20consulta."
+              href="https://wa.me/5493534128474?text=Hola%20Kazuty%20Parts%2C%20quiero%20hacer%20una%20consulta."
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-md bg-white px-6 py-3 font-bold text-black transition-colors hover:bg-gray-200"

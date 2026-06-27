@@ -2,7 +2,7 @@
 import { Instagram, MapPin, Phone } from 'lucide-react';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/juan.bucchioni';
-const WHATSAPP_URL = 'https://wa.me/54935341284744?text=Hola%20Kazuty%20Parts%2C%20quiero%20hacer%20una%20consulta.';
+const WHATSAPP_URL = 'https://wa.me/5493534128474?text=Hola%20Kazuty%20Parts%2C%20quiero%20hacer%20una%20consulta.';
 
 export default function Footer() {
   return (
@@ -33,7 +33,7 @@ export default function Footer() {
             <h3 className="font-brand mb-4 text-lg font-semibold text-white">Contacto</h3>
             <ul className="space-y-3 text-gray-200">
               <li className="flex items-start"><MapPin className="mr-2 mt-0.5 h-5 w-5 text-white" /><span>Argentina</span></li>
-              <li className="flex items-center"><Phone className="mr-2 h-5 w-5 text-white" /><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="hover:text-white hover:underline">35341284744</a></li>
+              <li className="flex items-center"><Phone className="mr-2 h-5 w-5 text-white" /><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="hover:text-white hover:underline">3534128474</a></li>
               <li className="flex items-center"><Instagram className="mr-2 h-5 w-5 text-white" /><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-white hover:underline">@juan.bucchioni</a></li>
             </ul>
           </div>

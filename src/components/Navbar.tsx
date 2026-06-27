@@ -5,7 +5,7 @@ import { useCartStore } from '../store/cartStore';
 import { useAuthStore } from '../store/authStore';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/juan.bucchioni';
-const WHATSAPP_URL = 'https://wa.me/54935341284744?text=Hola%20Kazuty%20Parts%2C%20quiero%20consultar%20por%20productos.';
+const WHATSAPP_URL = 'https://wa.me/5493534128474?text=Hola%20Kazuty%20Parts%2C%20quiero%20consultar%20por%20productos.';
 
 export default function Navbar() {
   const cartItems = useCartStore((state) => state.items);

@@ -6,7 +6,7 @@ import { formatARS } from '../lib/currency';
 
 type PaymentMethod = 'efectivo' | 'transferencia';
 
-const WHATSAPP_PHONE = '54935341284744';
+const WHATSAPP_PHONE = '5493534128474';
 
 function paymentLabel(method: PaymentMethod) {
   switch (method) {

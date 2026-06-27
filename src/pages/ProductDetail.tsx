@@ -124,7 +124,7 @@ export default function ProductDetail() {
     if (!product) return;
     if (product.price <= 0) {
       const message = `Hola Kazuty Parts, quiero consultar por ${product.name}. Modelo de moto: _____. Color: ${selectedColor || '_____'}.`;
-      window.open(`https://wa.me/54935341284744?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+      window.open(`https://wa.me/5493534128474?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
       return;
     }
 
