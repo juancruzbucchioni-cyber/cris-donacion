@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { X, ShoppingCart, Star, Plus, Minus } from 'lucide-react';
 import { Product } from '../types/supabase';
 import { useCartStore } from '../store/cartStore';
@@ -40,7 +40,7 @@ const QuickView = memo(function QuickView({ product, onClose }: QuickViewProps) 
 
   const handleAddToCart = () => {
     if (isOnRequest) {
-      const message = `Hola Kazuty Parts, quiero consultar por ${product.name}. Modelo de moto: _____. Color: ${selectedColor || '_____'}.`;
+      const message = `Hola Cris Metal, quiero consultar por ${product.name}. Modelo: ${selectedColor || '_____'}.`;
       window.open(`https://wa.me/5493534128474?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
       onClose();
       return;
@@ -98,7 +98,7 @@ const QuickView = memo(function QuickView({ product, onClose }: QuickViewProps) 
                 ))}
               </div>
               <span className="ml-2 text-gray-600 dark:text-gray-300">
-                (24 reviews)
+                Consulta tecnica
               </span>
             </div>
             
@@ -112,7 +112,7 @@ const QuickView = memo(function QuickView({ product, onClose }: QuickViewProps) 
 
             <div className="mb-6">
               <p className="text-gray-700 dark:text-gray-300 mb-2">
-                <span className="font-semibold">Color:</span>
+                <span className="font-semibold">Modelo:</span>
               </p>
               <div className="flex flex-wrap gap-2">
                 {availableColors.map((color) => (
@@ -138,9 +138,9 @@ const QuickView = memo(function QuickView({ product, onClose }: QuickViewProps) 
               <p className="text-gray-700 dark:text-gray-300 mb-2">
                 <span className="font-semibold">Disponibilidad:</span>{' '}
                 {product.stock > 0 ? (
-                  <span className="text-green-600 dark:text-green-400">En stock ({product.stock} disponibles)</span>
+                  <span className="text-green-600 dark:text-green-400">Disponible ({product.stock} en stock)</span>
                 ) : (
-                  <span className="text-red-600 dark:text-red-400">Sin stock</span>
+                  <span className="text-red-600 dark:text-red-400">No disponible</span>
                 )}
               </p>
             </div>
@@ -177,7 +177,7 @@ const QuickView = memo(function QuickView({ product, onClose }: QuickViewProps) 
                 }`}
               >
                 <ShoppingCart className="w-5 h-5" />
-                <span>{isOnRequest ? 'Consultar por WhatsApp' : product.stock > 0 ? (isInCart ? 'Actualizar carrito' : 'Agregar al carrito') : 'Sin stock'}</span>
+                <span>{isOnRequest ? 'Consultar por WhatsApp' : product.stock > 0 ? (isInCart ? 'Actualizar carrito' : 'Agregar al carrito') : 'No disponible'}</span>
               </button>
             </div>
           </div>

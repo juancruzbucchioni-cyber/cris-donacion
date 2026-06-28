@@ -1,11 +1,11 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ShoppingCart, Star, ArrowLeft, Info, Package, Check, X, Truck, Shield } from 'lucide-react';
+import { ArrowLeft, Check, ShoppingCart, Info, Package, Star } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useCartStore } from '../store/cartStore';
 import { Product, Review, ProductImage } from '../types/supabase';
 import ProductGallery from '../components/ProductGallery';
-import { formatARS, formatProductPrice } from '../lib/currency';
+import { formatProductPrice } from '../lib/currency';
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
@@ -123,7 +123,7 @@ export default function ProductDetail() {
   const handleAddToCart = () => {
     if (!product) return;
     if (product.price <= 0) {
-      const message = `Hola Kazuty Parts, quiero consultar por ${product.name}. Modelo de moto: _____. Color: ${selectedColor || '_____'}.`;
+      const message = `Hola Cris Metal, quiero consultar por ${product.name}. Modelo: ${selectedColor || '_____'}.`;
       window.open(`https://wa.me/5493534128474?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
       return;
     }
@@ -221,7 +221,7 @@ export default function ProductDetail() {
               <span className="font-semibold">Categoria:</span> {product.category}
             </p>
             <div className="mb-2">
-              <span className="font-semibold text-gray-200">Color:</span>
+              <span className="font-semibold text-gray-200">Modelo:</span>
               <div className="mt-2 flex flex-wrap gap-2">
                 {availableColors.map((color) => (
                   <button
@@ -241,34 +241,34 @@ export default function ProductDetail() {
             <p className="text-gray-200 mb-2">
               <span className="font-semibold">Disponibilidad:</span>{' '}
               {isOnRequest ? (
-                <span className="text-green-600 dark:text-green-400">Producto por encargo</span>
+                <span className="text-green-600 dark:text-green-400">Coordinar por WhatsApp</span>
               ) : product.stock > 0 ? (
-                <span className="text-green-600 dark:text-green-400">En stock ({product.stock} disponibles)</span>
+                <span className="text-green-600 dark:text-green-400">Disponible ({product.stock} en stock)</span>
               ) : (
-                <span className="text-red-600 dark:text-red-400">Sin stock</span>
+                <span className="text-red-600 dark:text-red-400">No disponible</span>
               )}
             </p>
           </div>
           
           {/* Product Benefits */}
           <div className="bg-black/55 border border-white/30 rounded-lg p-4 mb-6">
-            <h3 className="font-semibold text-white mb-3">Beneficios clave</h3>
+            <h3 className="font-semibold text-white mb-3">Detalles de fabricacion</h3>
             <ul className="space-y-2">
               <li className="flex items-center">
                 <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                <span className="text-gray-200">Materiales premium de alta durabilidad</span>
+                <span className="text-gray-200">Fabricado en acero inoxidable</span>
               </li>
               <li className="flex items-center">
                 <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                <span className="text-gray-200">Garantia del fabricante</span>
+                <span className="text-gray-200">Consulta tecnica por WhatsApp</span>
               </li>
               <li className="flex items-center">
                 <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                <span className="text-gray-200">Envio gratis segun zona y monto</span>
+                <span className="text-gray-200">Opciones para 4 tiempos</span>
               </li>
               <li className="flex items-center">
                 <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                <span className="text-gray-200">Atencion post-venta personalizada</span>
+                <span className="text-gray-200">Terminacion pensada para competicion</span>
               </li>
             </ul>
           </div>
@@ -306,26 +306,26 @@ export default function ProductDetail() {
             } transition-colors`}
           >
             <ShoppingCart className="w-5 h-5" />
-            <span>{isOnRequest ? 'Consultar por WhatsApp' : product.stock > 0 ? (addedToCart ? 'Actualizar carrito' : 'Agregar al carrito') : 'Sin stock'}</span>
+            <span>{isOnRequest ? 'Consultar por WhatsApp' : product.stock > 0 ? (addedToCart ? 'Actualizar carrito' : 'Agregar al carrito') : 'No disponible'}</span>
           </button>
           
-          {/* Envio & Returns Info */}
+          {/* Producto Info */}
           <div className="mt-6 grid grid-cols-2 gap-4">
             <div className="flex items-center">
-              <Truck className="h-5 w-5 text-primary mr-2" />
-              <span className="text-sm text-gray-200">Envio a todo el pais</span>
+              <ShoppingCart className="h-5 w-5 text-primary mr-2" />
+              <span className="text-sm text-gray-200">Venta directa</span>
             </div>
             <div className="flex items-center">
               <Package className="h-5 w-5 text-primary mr-2" />
-              <span className="text-sm text-gray-200">Empaque seguro</span>
-            </div>
-            <div className="flex items-center">
-              <Shield className="h-5 w-5 text-primary mr-2" />
-              <span className="text-sm text-gray-200">Cambios y devoluciones</span>
+              <span className="text-sm text-gray-200">Coordinacion simple</span>
             </div>
             <div className="flex items-center">
               <Info className="h-5 w-5 text-primary mr-2" />
-              <span className="text-sm text-gray-200">Satisfaccion garantizada</span>
+              <span className="text-sm text-gray-200">Consulta por WhatsApp</span>
+            </div>
+            <div className="flex items-center">
+              <Check className="h-5 w-5 text-primary mr-2" />
+              <span className="text-sm text-gray-200">Alto rendimiento</span>
             </div>
           </div>
         </div>

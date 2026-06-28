@@ -1,4 +1,4 @@
-﻿import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Edit, Plus, RefreshCw, Save, Trash2 } from 'lucide-react';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
@@ -367,7 +367,7 @@ export default function CustomPanel() {
         price: row.price ?? currentProduct?.price ?? 0,
         stock: row.stock ?? currentProduct?.stock ?? 0,
         category: row.category || currentProduct?.category || '',
-        image_url: row.image_url || currentProduct?.image_url || '/branding/kazuty-logo.png',
+        image_url: row.image_url || currentProduct?.image_url || '/branding/cris-metal-logo.png',
         colors: row.colors && row.colors.length > 0 ? row.colors : currentProduct?.colors || ['Consultar'],
       };
 
@@ -643,7 +643,7 @@ export default function CustomPanel() {
     <section className="container py-10 space-y-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-sm font-bold uppercase tracking-widest text-white">Kazuty Parts</p>
+          <p className="text-sm font-bold uppercase tracking-widest text-white">Cris Metal Escapes</p>
           <h1 className="font-brand text-3xl text-white md:text-4xl">Panel administrador</h1>
           <p className="mt-2 text-gray-300">Crea y edita productos, categorias, ofertas y resenas conectadas a Supabase.</p>
         </div>
@@ -723,7 +723,7 @@ export default function CustomPanel() {
                 className={`${fieldClass} min-h-36 font-mono text-xs`}
                 value={bulkText}
                 onChange={(event) => setBulkText(event.target.value)}
-                placeholder={`Escape GRS - Escapes - 250000 - 3 - rojo, negro\nKit cilindro 190 - Motor - 148373 - 2\nFiltro XR precio=35000 stock=6 categoria=Accesorios`}
+                placeholder={`Escape 4T inox Tornado - Escapes 4T - 250000 - 3 - inoxidable, negro\nSistema completo XR - Competicion - 320000 - 2\nSilenciador 4T precio=180000 stock=4 categoria=Acero inoxidable`}
               />
               <div className="rounded-md border border-green-400/80 bg-green-500/15 p-3 text-xs text-green-100 shadow-[0_0_22px_rgba(34,197,94,0.22)]">
                 <p className="font-black uppercase tracking-wide text-green-300">Formato recomendado:</p>

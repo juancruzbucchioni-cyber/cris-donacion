@@ -111,10 +111,10 @@
 
   .review-ribbon-card {
     position: relative;
-    background: #7e22ce;
+    background: #b91c1c;
     border: 1px solid rgba(255, 255, 255, 0.86);
     clip-path: polygon(0 8%, 50% 0, 100% 8%, 100% 92%, 50% 100%, 0 92%);
-    box-shadow: 0 0 22px rgba(168, 85, 247, 0.34);
+    box-shadow: 0 0 22px rgba(239, 68, 68, 0.34);
   }
 
   .transform-gpu {

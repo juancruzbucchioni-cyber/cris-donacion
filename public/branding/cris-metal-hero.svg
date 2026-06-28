@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="720" viewBox="0 0 1600 720" role="img" aria-label="Cris Metal escapes 4 tiempos">
+  <rect width="1600" height="720" fill="#050505"/>
+  <defs>
+    <linearGradient id="steel" x1="0" x2="1">
+      <stop offset="0" stop-color="#6f6f6f"/>
+      <stop offset=".22" stop-color="#f8f8f8"/>
+      <stop offset=".45" stop-color="#9b9b9b"/>
+      <stop offset=".72" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#595959"/>
+    </linearGradient>
+  </defs>
+  <rect x="64" y="58" width="1472" height="604" rx="34" fill="#101010" stroke="#ffffff" stroke-opacity=".18" stroke-width="2"/>
+  <path d="M840 385c180-80 355-98 538-62 37 7 63 40 59 77-4 39-38 68-77 65-159-14-308 1-455 64-35 15-75-1-90-36-16-40-5-87 25-108z" fill="url(#steel)" opacity=".95"/>
+  <path d="M945 435c116-39 238-49 366-29" fill="none" stroke="#111" stroke-width="28" stroke-linecap="round" opacity=".78"/>
+  <path d="M1190 296l118 4c31 1 56 26 56 57v6" fill="none" stroke="#f3121d" stroke-width="34" stroke-linecap="round"/>
+  <path d="M1190 296l118 4c31 1 56 26 56 57v6" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity=".75"/>
+  <text x="118" y="190" fill="#f3121d" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="900" letter-spacing="3">CRIS METAL</text>
+  <text x="118" y="288" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="86" font-weight="900" letter-spacing="1">ESCAPES 4T</text>
+  <text x="122" y="360" fill="#d8d8d8" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700">Competicion en acero inoxidable</text>
+  <text x="122" y="412" fill="#a9a9a9" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600">Fabricacion y venta para motos de alto rendimiento.</text>
+  <rect x="122" y="480" width="270" height="68" rx="34" fill="#f3121d"/>
+  <text x="166" y="524" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="900">VER CATALOGO</text>
+</svg>

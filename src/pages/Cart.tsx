@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { ShoppingCart, Trash2, ArrowLeft, Plus, Minus } from 'lucide-react';
 import { useCartStore } from '../store/cartStore';
 import { Link } from 'react-router-dom';
@@ -43,12 +43,12 @@ export default function Cart() {
     if (cartItems.length === 0) return;
 
     const lines = cartItems.map((item, index) => {
-      const colorText = item.color ? ` | Color: ${item.color}` : '';
-      return `${index + 1}. ${item.name}${colorText} | Cantidad: ${item.quantity} | Unit: ${formatARS(Math.round(item.price))} | Subtotal: ${formatARS(Math.round(item.price * item.quantity))}`;
+      const detailText = item.color ? ` | Modelo: ${item.color}` : '';
+      return `${index + 1}. ${item.name}${detailText} | Cantidad: ${item.quantity} | Unitario: ${formatARS(Math.round(item.price))} | Subtotal: ${formatARS(Math.round(item.price * item.quantity))}`;
     });
 
     const message =
-      `Hola Kazuty Parts, quiero comprar estos productos:\n\n` +
+      `Hola Cris Metal, quiero comprar estos productos:\n\n` +
       `${lines.join('\n')}\n\n` +
       `Forma de pago: ${paymentLabel(paymentMethod)}\n` +
       `Total: ${formatARS(Math.round(total))}\n\n` +
@@ -65,12 +65,12 @@ export default function Cart() {
       {cartItems.length === 0 ? (
         <div className="bg-black/55 backdrop-blur-sm p-8 rounded-lg border border-primary/30 text-center">
           <ShoppingCart className="h-16 w-16 mx-auto text-gray-400 mb-4" />
-          <p className="text-gray-300 text-lg mb-6">Tu carrito esta vacio.</p>
+          <p className="text-gray-300 text-lg mb-6">Todavia no elegiste ningun producto.</p>
           <Link
             to="/products"
           className="inline-block px-6 py-2 bg-black text-white rounded-md hover:bg-white hover:text-black transition-colors btn-hover-scale btn-hover-shadow"
           >
-            Seguir comprando
+            Ver catalogo
           </Link>
         </div>
       ) : (
@@ -86,7 +86,7 @@ export default function Cart() {
                   <div>
                     <h2 className="text-lg font-semibold text-white">{item.name}</h2>
                     <p className="text-gray-300">{formatARS(Math.round(item.price))}</p>
-                    {item.color ? <p className="text-sm text-gray-200">Color: {item.color}</p> : null}
+                    {item.color ? <p className="text-sm text-gray-200">Modelo: {item.color}</p> : null}
                     <div className="flex items-center mt-2">
                       <button
                         onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
@@ -117,7 +117,7 @@ export default function Cart() {
             <div className="mt-6">
               <Link to="/products" className="inline-flex items-center text-white hover:text-gray-300 transition-colors link-hover">
                 <ArrowLeft className="h-4 w-4 mr-2" />
-                Seguir comprando
+                Seguir viendo productos
               </Link>
             </div>
           </div>
@@ -126,12 +126,12 @@ export default function Cart() {
             <h2 className="text-xl font-semibold text-white mb-4">Resumen del pedido</h2>
             <div className="space-y-2 mb-4">
               <div className="flex justify-between text-gray-300">
-                <span>Subtotal ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} items)</span>
+                <span>Subtotal ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} productos)</span>
                 <span>{formatARS(Math.round(subtotal))}</span>
               </div>
               <div className="flex justify-between text-gray-300">
-                <span>Envio</span>
-                <span>Gratis</span>
+                <span>Coordinacion</span>
+                <span>Por WhatsApp</span>
               </div>
               <div className="border-t border-gray-700 pt-2 mt-2">
                 <div className="flex justify-between font-semibold text-lg text-white">
@@ -161,7 +161,7 @@ export default function Cart() {
               className="w-full flex items-center justify-center bg-white text-black px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors btn-hover-scale"
             >
               <ShoppingCart className="h-5 w-5 mr-2" />
-              Comprar por WhatsApp
+              Consultar por WhatsApp
             </button>
 
             <button

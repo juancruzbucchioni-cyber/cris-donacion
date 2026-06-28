@@ -1,4 +1,4 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import FeaturedProducts from '../components/FeaturedProducts';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
@@ -31,12 +31,11 @@ export default function Home() {
           .order('created_at', { ascending: false });
 
         if (!error && data && data.length > 0) {
-          const normalized = (data as Testimonial[]).map((item) => ({
+          setClientReviews((data as Testimonial[]).map((item) => ({
             nombre: item.nombre,
             mensaje: item.mensaje,
             foto: item.foto_url || DEFAULT_REVIEW_AVATAR,
-          }));
-          setClientReviews(normalized);
+          })));
           return;
         }
       }
@@ -50,13 +49,13 @@ export default function Home() {
           return;
         }
       } catch (error) {
-        console.error('Error cargando reseñas de clientes:', error);
+        console.error('Error cargando mensajes:', error);
       }
 
       setClientReviews([
         {
-          nombre: 'Cliente Kazuty Parts',
-          mensaje: 'Excelente atencion, me ayudaron a elegir justo lo que necesitaba.',
+          nombre: 'Cris Metal Escapes',
+          mensaje: 'Fabricacion de escapes 4T en acero inoxidable.',
           foto: DEFAULT_REVIEW_AVATAR,
         },
       ]);
@@ -85,7 +84,7 @@ export default function Home() {
         .order('created_at', { ascending: false });
 
       if (!categoriesError && categoriesData) {
-        setAllCategories(categoriesData.map((c: { name: string }) => c.name));
+        setAllCategories(categoriesData.map((category: { name: string }) => category.name));
       }
     }
 
@@ -100,9 +99,7 @@ export default function Home() {
       group.set(product.category, list);
     });
 
-    const orderedCategories = allCategories.length > 0
-      ? allCategories
-      : Array.from(group.keys());
+    const orderedCategories = allCategories.length > 0 ? allCategories : Array.from(group.keys());
 
     return orderedCategories
       .map((category) => ({
@@ -118,16 +115,16 @@ export default function Home() {
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-6">
-      <div className="relative overflow-hidden rounded-md border border-white bg-black shadow-[0_0_36px_rgba(168,85,247,0.18)]">
+      <div className="relative overflow-hidden rounded-md border border-white bg-black shadow-[0_0_36px_rgba(239,68,68,0.22)]">
         <div className="p-4 md:p-6">
           <Link
             to="/products"
-            className="block overflow-hidden rounded-3xl border border-white bg-white"
-            aria-label="Ver productos Kazuty Parts"
+            className="block overflow-hidden rounded-3xl border border-white bg-black"
+            aria-label="Ver catalogo Cris Metal"
           >
             <img
-              src="/branding/kazuty-hero.png"
-              alt="Kazuty Parts repuestos y accesorios para motos"
+              src="/branding/cris-metal-hero.svg"
+              alt="Cris Metal escapes 4 tiempos de competicion"
               className="h-[260px] w-full object-cover md:h-[420px] lg:h-[520px]"
             />
           </Link>
@@ -155,11 +152,11 @@ export default function Home() {
       </div>
 
       <div className="mt-16 w-full">
-        <h2 className="font-brand mb-8 text-3xl font-bold text-white">Todas las categorias</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <h2 className="font-brand mb-8 text-3xl font-bold text-white">Categorias</h2>
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {(categoriesWithProducts.length > 0
             ? categoriesWithProducts
-            : ['Accesorios', 'Escapes', 'Plasticos', 'Transmision', 'Electronica', 'Frenos', 'Iluminacion', 'Indumentaria']
+            : ['Escapes 4T', 'Competicion', 'Acero inoxidable', 'A medida', 'Enduro', 'Calle', 'Tornado', 'XR']
           ).map((categoria) => (
             <Link
               key={categoria}
@@ -173,18 +170,14 @@ export default function Home() {
       </div>
 
       <div className="mt-16 w-full">
-        <h2 className="font-brand mb-8 text-3xl font-bold text-white">Productos por categoria</h2>
+        <h2 className="font-brand mb-8 text-3xl font-bold text-white">Catalogo por categoria</h2>
         <div className="space-y-10">
           {groupedProducts.map((block) => (
             <div key={block.category}>
               <h3 className="font-brand mb-4 text-xl text-white md:text-2xl">{block.category}</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {block.products.map((product) => (
-                  <Link
-                    key={product.id}
-                    to={`/products/${product.id}`}
-                    className="block h-full"
-                  >
+                  <Link key={product.id} to={`/products/${product.id}`} className="block h-full">
                     <ProductCard product={product} onAddToCart={addItem} />
                   </Link>
                 ))}
@@ -197,8 +190,8 @@ export default function Home() {
       <div className="mt-16 w-full">
         <div className="mx-auto max-w-3xl rounded-xl border border-white/10 bg-zinc-950 p-6 text-center shadow-sm md:p-8">
           <p className="text-2xl font-black tracking-wide text-white">@juan.bucchioni</p>
-          <p className="mt-3 text-gray-200">Seguinos para novedades, ingresos y promos.</p>
-          <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+          <p className="mt-3 text-gray-200">Seguinos para ver trabajos, ingresos y escapes instalados.</p>
+          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
             <a
               href="https://www.instagram.com/juan.bucchioni"
               target="_blank"
@@ -208,12 +201,12 @@ export default function Home() {
               Ir a Instagram
             </a>
             <a
-              href="https://wa.me/5493534128474?text=Hola%20Kazuty%20Parts%2C%20quiero%20hacer%20una%20consulta."
+              href="https://wa.me/5493534128474?text=Hola%20Cris%20Metal%2C%20quiero%20consultar%20por%20un%20escape%204T."
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-md bg-white px-6 py-3 font-bold text-black transition-colors hover:bg-gray-200"
             >
-              Enviar mensaje directo
+              Consultar por WhatsApp
             </a>
           </div>
         </div>
@@ -221,4 +214,3 @@ export default function Home() {
     </section>
   );
 }
-

@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useMemo } from 'react';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
@@ -186,16 +186,16 @@ export default function ProductosPage() {
       <div className="mb-8 border border-primary/30 bg-black/45 backdrop-blur-sm rounded-lg p-4 md:p-6">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-4xl md:text-6xl font-black tracking-wide text-white uppercase">
-            {searchQuery ? `Resultados para "${searchQuery}"` : selectedCategory ? `Productos por categoria: ${selectedCategory}` : 'Productos por categoria'}
+            {searchQuery ? `Resultados para "${searchQuery}"` : selectedCategory ? `Escapes por categoria: ${selectedCategory}` : 'Catalogo de escapes'}
           </h1>
         </div>
         <p className="text-gray-300 text-sm md:text-base">
-          Selecciona tu repuesto ideal con el estilo de <span className="text-primary font-bold">Kazuty Parts</span>.
+          Escapes 4 tiempos de competicion en acero inoxidable fabricados por <span className="text-primary font-bold">Cris Metal</span>.
         </p>
       </div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="font-brand text-xl font-bold text-primary uppercase tracking-widest">
-          {selectedCategory || 'Todos los productos'}
+          {selectedCategory || 'Todos los escapes'}
         </h2>
         <button
           onClick={() => setShowFiltros(!showFiltros)}
@@ -309,7 +309,7 @@ export default function ProductosPage() {
         <div className="md:w-3/4">
           {!isSupabaseConfigured ? (
             <div className="mb-6 bg-amber-50 border border-amber-200 rounded-lg p-4 text-amber-900">
-              Agrega <code>VITE_SUPABASE_URL</code> y <code>VITE_SUPABASE_ANON_KEY</code> en <code>.env</code> para cargar productos desde tu base.
+              Agrega <code>VITE_SUPABASE_URL</code> y <code>VITE_SUPABASE_ANON_KEY</code> en <code>.env</code> para cargar el catalogo desde tu base.
             </div>
           ) : null}
           {loading ? (

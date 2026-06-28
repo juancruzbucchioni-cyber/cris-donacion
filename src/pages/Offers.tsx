@@ -4,8 +4,8 @@ import { isSupabaseConfigured, supabase } from '../lib/supabase';
 import { formatProductPrice } from '../lib/currency';
 import { Offer, Product } from '../types/supabase';
 
-const offerLabels = ['Oferta semanal', 'Oferta del mes', 'Especial dia del padre'];
-const salePercents = ['20% OFF', '10% OFF', 'SALE'];
+const offerLabels = ['Escape destacado', 'Linea competicion', 'Acero inoxidable'];
+const saleBadges = ['4T', 'INOX', 'RACING'];
 
 type VisibleOffer = {
   id: string;
@@ -22,7 +22,7 @@ export default function Offers() {
   useEffect(() => {
     async function loadOffers() {
       if (!isSupabaseConfigured) {
-        setProducts([]);
+        setOffers([]);
         setLoading(false);
         return;
       }
@@ -40,8 +40,8 @@ export default function Offers() {
           .map((offer) => ({
             id: offer.id,
             product: offer.products as Product,
-            title: offer.title || 'Oferta especial',
-            badge: offer.badge || 'SALE',
+            title: offer.title || 'Escape destacado',
+            badge: offer.badge || '4T',
             price: Number(offer.offer_price || offer.products?.price || 0),
           })));
         setLoading(false);
@@ -51,18 +51,17 @@ export default function Offers() {
       const { data, error } = await supabase
         .from('products')
         .select('*')
-        .gt('price', 0)
         .order('created_at', { ascending: false })
         .limit(3);
 
       if (error) {
-        console.error('Error cargando ofertas:', error);
+        console.error('Error cargando destacados:', error);
       } else {
         setOffers(((data || []) as Product[]).map((product, index) => ({
           id: product.id,
           product,
-          title: offerLabels[index] || 'Oferta especial',
-          badge: salePercents[index] || 'SALE',
+          title: offerLabels[index] || 'Escape destacado',
+          badge: saleBadges[index] || '4T',
           price: product.price,
         })));
       }
@@ -76,12 +75,12 @@ export default function Offers() {
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-8">
       <div className="mb-12 rounded-full border border-white bg-white px-6 py-3 text-center text-sm font-black uppercase tracking-[0.24em] text-black shadow-[0_0_22px_rgba(255,255,255,0.16)]">
-        Ofertas
+        Destacados Cris Metal
       </div>
 
       {!isSupabaseConfigured ? (
         <div className="rounded-md border border-white/35 bg-white/10 p-4 text-white backdrop-blur-md">
-          Configura Supabase para cargar productos reales en ofertas.
+          Configura Supabase para cargar destacados reales del catalogo.
         </div>
       ) : null}
 
@@ -92,11 +91,7 @@ export default function Offers() {
       ) : offers.length > 0 ? (
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
           {offers.map((offer) => (
-            <Link
-              key={offer.id}
-              to={`/products/${offer.product.id}`}
-              className="offer-card group block h-full overflow-visible"
-            >
+            <Link key={offer.id} to={`/products/${offer.product.id}`} className="offer-card group block h-full overflow-visible">
               <div className="review-ribbon-card mx-auto mb-4 flex min-h-16 w-52 items-center justify-center px-4 py-3 text-center">
                 <p className="text-sm font-black text-white">{offer.title}</p>
               </div>
@@ -106,7 +101,7 @@ export default function Offers() {
                   {offer.badge}
                 </span>
                 <span className="absolute right-4 top-4 z-20 rounded-full border border-white bg-black/80 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-white">
-                  Sale
+                  Racing
                 </span>
 
                 <div className="flex h-72 items-center justify-center border-b border-white/20 bg-white/75 p-4">
@@ -131,7 +126,7 @@ export default function Offers() {
                   </p>
                   <div className="mt-auto pt-6">
                     <p className="text-sm font-bold uppercase tracking-[0.2em] text-white/70">
-                      Precio oferta
+                      Precio
                     </p>
                     <p className="mt-2 text-3xl font-black text-red-500">
                       {formatProductPrice(Math.round(offer.price))}
@@ -144,7 +139,7 @@ export default function Offers() {
         </div>
       ) : (
         <div className="rounded-md border border-white/25 bg-white/10 p-8 text-center text-white backdrop-blur-md">
-          No hay productos cargados para mostrar ofertas.
+          No hay productos cargados para mostrar destacados.
         </div>
       )}
     </section>

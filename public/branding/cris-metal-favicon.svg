@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Cris Metal">
+  <rect width="64" height="64" rx="14" fill="#070707"/>
+  <path d="M12 41V23h22v8H24v2h10v8H12z" fill="#f3121d"/>
+  <path d="M38 23h14v18H42v-9l-4 9h-7l7-18z" fill="#f5f5f5"/>
+  <path d="M7 48h50v5H7z" fill="#f3121d"/>
+</svg>

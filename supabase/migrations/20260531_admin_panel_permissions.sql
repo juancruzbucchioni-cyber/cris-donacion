@@ -1,4 +1,4 @@
--- Admin panel permissions for Kazuty Partz.
+-- Admin panel permissions for Cris Metal.
 -- Run this in Supabase SQL editor, then mark your own profile as admin.
 
 ALTER TABLE public.profiles

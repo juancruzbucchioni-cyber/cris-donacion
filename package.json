@@ -1,14 +1,12 @@
 {
-  "name": "modern-ecommerce",
+  "name": "cris-metal-escapes",
   "version": "0.1.0",
   "private": true,
-  "description": "A modern e-commerce project built with React, TypeScript, Vite, Supabase, and Tailwind CSS.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/danipaBernales/modern-ecommerce.git"
-  },
+  "description": "Catalogo web de Cris Metal Escapes para venta de escapes 4T de competicion en acero inoxidable.",
   "keywords": [
-    "ecommerce",
+    "escapes",
+    "motos",
+    "cris-metal",
     "react",
     "typescript",
     "vite",

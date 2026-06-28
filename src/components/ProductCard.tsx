@@ -1,4 +1,4 @@
-﻿import { Eye, ShoppingCart } from 'lucide-react';
+import { Eye, ShoppingCart } from 'lucide-react';
 import { Product } from '../types/supabase';
 import { useEffect, memo, useState } from 'react';
 import { useCartStore } from '../store/cartStore';
@@ -30,7 +30,7 @@ const ProductCard = memo(function ProductCard({
     event.stopPropagation();
 
     if (isOnRequest) {
-      const message = `Hola Kazuty Parts, quiero consultar por ${product.name}. Modelo de moto: _____. Color: _____.`;
+      const message = `Hola Cris Metal, quiero consultar por ${product.name}. Modelo: _____.`;
       window.open(`https://wa.me/5493534128474?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
       return;
     }
@@ -64,25 +64,25 @@ const ProductCard = memo(function ProductCard({
           loading="lazy"
           decoding="async"
         />
-        <div className="absolute left-4 top-4 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-400 text-center text-[11px] font-black uppercase leading-tight text-black">
-          {isOnRequest ? 'Encargo' : 'Stock'}
+        <div className="absolute left-4 top-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-600 text-center text-[11px] font-black uppercase leading-tight text-white">
+          {isOnRequest ? 'Consultar' : 'Stock'}
         </div>
         {!isOnRequest && product.stock <= 5 && product.stock > 0 && (
-          <div className="absolute left-4 top-20 rounded-full bg-emerald-400 px-3 py-2 text-xs font-black uppercase text-black">
-            Quedan {product.stock}
+          <div className="absolute left-4 top-20 rounded-full bg-red-600 px-3 py-2 text-xs font-black uppercase text-white">
+            Stock {product.stock}
           </div>
         )}
         {!isOnRequest && product.stock === 0 && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/55">
             <span className="rounded-md bg-red-500 px-3 py-1 text-sm font-bold text-white">
-              Sin stock
+              No disponible
             </span>
           </div>
         )}
       </div>
 
       <div className="flex flex-grow flex-col border-t border-white/15 p-5 text-center">
-        <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.25em] text-emerald-400">
+        <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.25em] text-red-400">
           {product.category}
         </p>
         <h3 className="min-h-14 text-xl font-bold leading-tight text-white">
@@ -95,8 +95,8 @@ const ProductCard = memo(function ProductCard({
           <p className="text-3xl font-black leading-none text-white">
             {formatProductPrice(Math.round(product.price))}
           </p>
-          <p className="mt-2 text-sm font-black uppercase leading-tight text-emerald-400">
-            {isOnRequest ? 'Producto por encargo' : 'Precio especial por transferencia'}
+          <p className="mt-2 text-sm font-black uppercase leading-tight text-red-400">
+            {isOnRequest ? 'Consultar por WhatsApp' : 'Precio especial por transferencia'}
           </p>
         </div>
         <div className="mt-auto grid grid-cols-2 gap-3 pt-5">
@@ -108,10 +108,10 @@ const ProductCard = memo(function ProductCard({
                 ? 'bg-white text-black hover:bg-gray-200'
                 : 'cursor-not-allowed bg-gray-500/60 text-gray-300'
             }`}
-            aria-label={isOnRequest ? 'Consultar por WhatsApp' : product.stock > 0 ? (isInCart ? 'Actualizar carrito' : 'Agregar al carrito') : 'Sin stock'}
+            aria-label={isOnRequest ? 'Consultar por WhatsApp' : product.stock > 0 ? (isInCart ? 'Actualizar carrito' : 'Agregar al carrito') : 'No disponible'}
           >
             <ShoppingCart className="h-5 w-5" />
-            <span>{isOnRequest ? 'Consultar' : product.stock > 0 ? (isInCart ? 'Listo' : 'Comprar') : 'Sin stock'}</span>
+            <span>{isOnRequest ? 'Consultar' : product.stock > 0 ? (isInCart ? 'Listo' : 'Comprar') : 'No disponible'}</span>
           </button>
           <button
             onClick={handleQuickView}
