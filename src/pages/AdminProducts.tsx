@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
-import { ImagePlus, LogOut, RefreshCw, Trash2 } from 'lucide-react';
+import { Edit, ImagePlus, LogOut, RefreshCw, Trash2, X } from 'lucide-react';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
 import { Product, ProductImage } from '../types/supabase';
 
@@ -37,6 +37,7 @@ export default function AdminProducts() {
   const [productImages, setProductImages] = useState<Record<string, ProductImage[]>>({});
   const [form, setForm] = useState<AdminForm>(emptyForm);
   const [files, setFiles] = useState<File[]>([]);
+  const [editingProductId, setEditingProductId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -113,10 +114,32 @@ export default function AdminProducts() {
     return uploadedUrls;
   };
 
+  const resetForm = () => {
+    setForm(emptyForm);
+    setFiles([]);
+    setEditingProductId(null);
+  };
+
+  const editProduct = (product: Product) => {
+    setEditingProductId(product.id);
+    setForm({
+      name: product.name || '',
+      moto: product.category || '',
+      description: product.description || '',
+      price: String(product.price || 0),
+      stock: String(product.stock || 0),
+    });
+    setFiles([]);
+    setMessage(`Editando: ${product.name}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const saveProduct = async (event: FormEvent) => {
     event.preventDefault();
 
-    if (files.length === 0) {
+    const editingImages = editingProductId ? productImages[editingProductId] || [] : [];
+
+    if (!editingProductId && files.length === 0) {
       setMessage('Subi al menos una imagen para el producto.');
       return;
     }
@@ -131,41 +154,46 @@ export default function AdminProducts() {
         price: Number(form.price || 0),
         stock: Number(form.stock || 0),
         category: form.moto.trim(),
-        image_url: '/branding/cris-metal-logo.png',
+        image_url: editingImages[0]?.image_url || '/branding/cris-metal-logo.png',
         colors: ['Consultar'],
       };
 
-      const { data: productData, error: productError } = await supabase
-        .from('products')
-        .insert(payload)
-        .select()
-        .single();
+      const request = editingProductId
+        ? supabase.from('products').update(payload).eq('id', editingProductId).select().single()
+        : supabase.from('products').insert(payload).select().single();
+
+      const { data: productData, error: productError } = await request;
 
       if (productError) throw new Error(productError.message);
 
       const savedProduct = productData as Product;
       const imageUrls = await uploadImages(savedProduct.id);
 
-      const { error: updateError } = await supabase
-        .from('products')
-        .update({ image_url: imageUrls[0] })
-        .eq('id', savedProduct.id);
+      const coverImage = editingImages[0]?.image_url || imageUrls[0] || savedProduct.image_url;
 
-      if (updateError) throw new Error(updateError.message);
+      if (coverImage !== savedProduct.image_url) {
+        const { error: updateError } = await supabase
+          .from('products')
+          .update({ image_url: coverImage })
+          .eq('id', savedProduct.id);
 
-      const { error: imagesError } = await supabase.from('product_images').insert(
-        imageUrls.map((imageUrl, index) => ({
-          product_id: savedProduct.id,
-          image_url: imageUrl,
-          is_primary: index === 0,
-        }))
-      );
+        if (updateError) throw new Error(updateError.message);
+      }
 
-      if (imagesError) throw new Error(imagesError.message);
+      if (imageUrls.length > 0) {
+        const { error: imagesError } = await supabase.from('product_images').insert(
+          imageUrls.map((imageUrl, index) => ({
+            product_id: savedProduct.id,
+            image_url: imageUrl,
+            is_primary: editingImages.length === 0 && index === 0,
+          }))
+        );
 
-      setForm(emptyForm);
-      setFiles([]);
-      setMessage('Producto publicado en el catalogo.');
+        if (imagesError) throw new Error(imagesError.message);
+      }
+
+      resetForm();
+      setMessage(editingProductId ? 'Producto actualizado en el catalogo.' : 'Producto publicado en el catalogo.');
       await loadProducts();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'No se pudo guardar el producto.');
@@ -178,6 +206,23 @@ export default function AdminProducts() {
     if (!confirm(`Seguro que queres borrar "${product.name}"?`)) return;
     const { error } = await supabase.from('products').delete().eq('id', product.id);
     setMessage(error ? `No se pudo borrar: ${error.message}` : 'Producto eliminado.');
+    await loadProducts();
+  };
+
+  const deleteProductImage = async (product: Product, image: ProductImage) => {
+    if (!confirm('Seguro que queres borrar esta imagen?')) return;
+
+    const { error } = await supabase.from('product_images').delete().eq('id', image.id);
+    if (error) {
+      setMessage(`No se pudo borrar la imagen: ${error.message}`);
+      return;
+    }
+
+    const remainingImages = (productImages[product.id] || []).filter((item) => item.id !== image.id);
+    const newCover = remainingImages[0]?.image_url || '/branding/cris-metal-logo.png';
+    await supabase.from('products').update({ image_url: newCover }).eq('id', product.id);
+
+    setMessage('Imagen eliminada.');
     await loadProducts();
   };
 
@@ -239,7 +284,17 @@ export default function AdminProducts() {
 
       <div className="grid gap-6 lg:grid-cols-[420px_1fr]">
         <form onSubmit={saveProduct} className="rounded-lg border border-white/10 bg-zinc-950 p-5">
-          <h2 className="text-2xl font-black text-white">Nueva publicacion</h2>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h2 className="text-2xl font-black text-white">{editingProductId ? 'Editar publicacion' : 'Nueva publicacion'}</h2>
+              {editingProductId ? <p className="mt-1 text-sm text-red-300">Los cambios se guardan sobre el producto existente.</p> : null}
+            </div>
+            {editingProductId ? (
+              <button type="button" onClick={resetForm} className="rounded-md border border-white/10 p-2 text-gray-300 transition hover:border-red-500 hover:text-white" title="Cancelar edicion">
+                <X className="h-4 w-4" />
+              </button>
+            ) : null}
+          </div>
           <label className="mt-4 block text-sm font-bold text-gray-200">
             Nombre del escape
             <input required className={fieldClass} value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} />
@@ -265,7 +320,7 @@ export default function AdminProducts() {
           <label className="mt-4 block text-sm font-bold text-gray-200">
             Imagenes de la publicacion
             <input
-              required
+              required={!editingProductId}
               multiple
               type="file"
               accept="image/*"
@@ -273,6 +328,33 @@ export default function AdminProducts() {
               onChange={(event) => setFiles(Array.from(event.target.files || []))}
             />
           </label>
+          {editingProductId && (productImages[editingProductId] || []).length > 0 ? (
+            <div className="mt-3">
+              <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-gray-400">Imagenes actuales</p>
+              <div className="grid grid-cols-3 gap-2">
+                {(productImages[editingProductId] || []).map((image) => {
+                  const product = products.find((item) => item.id === editingProductId);
+
+                  return (
+                    <div key={image.id} className="relative overflow-hidden rounded-md border border-white/10">
+                      <img src={image.image_url} alt="" className="aspect-square w-full object-cover" />
+                      {product ? (
+                        <button
+                          type="button"
+                          onClick={() => deleteProductImage(product, image)}
+                          className="absolute right-1 top-1 rounded bg-black/80 p-1 text-red-200 transition hover:bg-red-600 hover:text-white"
+                          title="Borrar imagen"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
+              <p className="mt-2 text-xs text-gray-400">Para sumar mas fotos, elegilas en el campo de arriba y guardá.</p>
+            </div>
+          ) : null}
           {files.length > 0 ? (
             <div className="mt-3 grid grid-cols-3 gap-2">
               {files.map((file) => (
@@ -282,8 +364,13 @@ export default function AdminProducts() {
           ) : null}
           <button disabled={saving} className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-red-600 px-5 py-3 font-black uppercase text-white transition hover:bg-red-500 disabled:opacity-60">
             <ImagePlus className="h-4 w-4" />
-            {saving ? 'Subiendo...' : 'Publicar producto'}
+            {saving ? 'Guardando...' : editingProductId ? 'Guardar cambios' : 'Publicar producto'}
           </button>
+          {editingProductId ? (
+            <button type="button" onClick={resetForm} className="mt-3 w-full rounded-md border border-white/10 px-5 py-3 font-bold text-gray-200 transition hover:border-red-500 hover:text-white">
+              Cancelar edicion
+            </button>
+          ) : null}
         </form>
 
         <div className="rounded-lg border border-white/10 bg-zinc-950 p-5">
@@ -309,10 +396,16 @@ export default function AdminProducts() {
                         ))}
                       </div>
                     ) : null}
-                    <button onClick={() => deleteProduct(product)} className="inline-flex items-center gap-2 rounded-md bg-red-600/20 px-3 py-2 text-sm font-bold text-red-100 transition hover:bg-red-600">
-                      <Trash2 className="h-4 w-4" />
-                      Borrar
-                    </button>
+                    <div className="flex flex-wrap gap-2">
+                      <button onClick={() => editProduct(product)} className="inline-flex items-center gap-2 rounded-md bg-white/10 px-3 py-2 text-sm font-bold text-white transition hover:bg-red-600">
+                        <Edit className="h-4 w-4" />
+                        Editar
+                      </button>
+                      <button onClick={() => deleteProduct(product)} className="inline-flex items-center gap-2 rounded-md bg-red-600/20 px-3 py-2 text-sm font-bold text-red-100 transition hover:bg-red-600">
+                        <Trash2 className="h-4 w-4" />
+                        Borrar
+                      </button>
+                    </div>
                   </div>
                 </article>
               );
