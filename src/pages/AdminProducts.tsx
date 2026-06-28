@@ -322,6 +322,27 @@ export default function AdminProducts() {
 
       {message ? <p className="mb-6 rounded-md border border-red-500/40 bg-red-950/30 p-3 text-sm text-red-100">{message}</p> : null}
 
+      <div className="mb-6 rounded-xl border-2 border-red-500 bg-red-950/30 p-5 shadow-[0_0_35px_rgba(220,38,38,0.22)]">
+        <p className="text-sm font-black uppercase tracking-[0.28em] text-red-300">Como subir un producto</p>
+        <h2 className="mt-2 text-2xl font-black text-white">Carga rapida para el catalogo</h2>
+        <div className="mt-4 grid gap-3 md:grid-cols-2">
+          {[
+            '1. Escribi el nombre del escape.',
+            '2. Pone la moto compatible o modelo.',
+            '3. Agrega una descripcion corta.',
+            '4. Carga precio y stock si queres usarlos.',
+            '5. Subi fotos desde tu celu/PC o pega links de imagen.',
+            '6. Revisa las fotos; si una esta mal, tocá la X para sacarla.',
+            '7. Tocá Publicar producto para que aparezca en Catalogo.',
+            '8. Para cambiar algo despues, usa Editar en productos cargados.',
+          ].map((step) => (
+            <div key={step} className="rounded-md border border-red-500/30 bg-black/50 p-3 text-sm font-bold text-gray-100">
+              {step}
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="grid gap-6 lg:grid-cols-[420px_1fr]">
         <form onSubmit={saveProduct} className="rounded-lg border border-white/10 bg-zinc-950 p-5">
           <div className="flex items-start justify-between gap-3">
