@@ -6,7 +6,7 @@ import { formatARS } from '../lib/currency';
 
 type PaymentMethod = 'efectivo' | 'transferencia';
 
-const WHATSAPP_PHONE = '5493534128474';
+const WHATSAPP_PHONE = '5493534093888';
 
 function paymentLabel(method: PaymentMethod) {
   switch (method) {
@@ -68,7 +68,7 @@ export default function Cart() {
           <p className="text-gray-300 text-lg mb-6">Todavia no elegiste ningun producto.</p>
           <Link
             to="/products"
-          className="inline-block px-6 py-2 bg-black text-white rounded-md hover:bg-white hover:text-black transition-colors btn-hover-scale btn-hover-shadow"
+          className="inline-block px-6 py-2 bg-black text-white rounded-md hover:bg-red-600 hover:text-white transition-colors btn-hover-scale btn-hover-shadow"
           >
             Ver catalogo
           </Link>
@@ -107,7 +107,7 @@ export default function Cart() {
                 </div>
                 <div className="flex flex-col items-end">
                   <p className="font-semibold text-white mb-2">{formatARS(Math.round(item.price * item.quantity))}</p>
-                  <button onClick={() => removeItem(item.id)} className="text-red-400 hover:text-gray-300 transition-colors">
+                  <button onClick={() => removeItem(item.id)} className="text-red-400 hover:text-red-300 transition-colors">
                     <Trash2 className="h-5 w-5" />
                   </button>
                 </div>
@@ -115,7 +115,7 @@ export default function Cart() {
             ))}
 
             <div className="mt-6">
-              <Link to="/products" className="inline-flex items-center text-white hover:text-gray-300 transition-colors link-hover">
+              <Link to="/products" className="inline-flex items-center text-white hover:text-red-300 transition-colors link-hover">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Seguir viendo productos
               </Link>
@@ -149,7 +149,7 @@ export default function Cart() {
                 id="payment-method"
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value as PaymentMethod)}
-                className="w-full p-2 border border-white/30 rounded-md bg-black/60 text-white focus:border-white focus:ring-white"
+                className="w-full p-2 border border-white/30 rounded-md bg-black/60 text-white focus:border-red-500 focus:ring-red-500"
               >
                 <option value="transferencia">Transferencia</option>
                 <option value="efectivo">Efectivo</option>
@@ -158,7 +158,7 @@ export default function Cart() {
 
             <button
               onClick={checkoutByWhatsApp}
-              className="w-full flex items-center justify-center bg-white text-black px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors btn-hover-scale"
+              className="w-full flex items-center justify-center bg-white text-black px-6 py-3 rounded-lg hover:bg-red-500 transition-colors btn-hover-scale"
             >
               <ShoppingCart className="h-5 w-5 mr-2" />
               Consultar por WhatsApp

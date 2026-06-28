@@ -1,17 +1,7 @@
 [
   {
-    "nombre": "Competicion 4T",
-    "mensaje": "Escapes de acero inoxidable pensados para rendimiento, sonido y durabilidad.",
-    "foto": "/branding/avatar-placeholder.svg"
-  },
-  {
-    "nombre": "Fabricacion propia",
-    "mensaje": "Consultanos por modelos, medidas y disponibilidad para tu moto.",
-    "foto": "/branding/avatar-placeholder.svg"
-  },
-  {
-    "nombre": "Cris Metal Escapes",
-    "mensaje": "Fabricando rendimiento para motos 4 tiempos.",
+    "nombre": "Cris Metal",
+    "mensaje": "Fabricantes de escapes de competicion de acero inoxidable para motos 4t",
     "foto": "/branding/avatar-placeholder.svg"
   }
 ]

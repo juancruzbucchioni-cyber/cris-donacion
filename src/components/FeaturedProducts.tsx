@@ -66,7 +66,7 @@ export default function FeaturedProducts() {
       <div className="mt-8 text-center">
         <Link
           to="/products"
-          className="inline-block rounded-md bg-primary px-6 py-3 text-white transition-colors hover:bg-white hover:text-black btn-hover-scale btn-hover-shadow"
+          className="inline-block rounded-md bg-primary px-6 py-3 text-white transition-colors hover:bg-red-600 hover:text-white btn-hover-scale btn-hover-shadow"
         >
           Ver catalogo completo
         </Link>

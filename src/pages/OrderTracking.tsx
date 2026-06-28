@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Package, Truck, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import AuthGuard from '../components/AuthGuard';
@@ -142,7 +142,7 @@ export default function OrderTracking() {
             <button
               type="submit"
               disabled={isTracking}
-              className="w-full md:w-auto px-6 py-3 bg-primary text-white rounded-lg hover:bg-white hover:text-black transition-colors disabled:bg-gray-400 btn-hover-scale"
+              className="w-full md:w-auto px-6 py-3 bg-primary text-white rounded-lg hover:bg-red-600 hover:text-white transition-colors disabled:bg-gray-400 btn-hover-scale"
             >
               {isTracking ? 'Rastreando...' : 'Rastrear pedido'}
             </button>
@@ -191,7 +191,7 @@ export default function OrderTracking() {
                 <p className="text-gray-600 dark:text-gray-300 mb-3">
                   If you have questions about your order, we're here to help.
                 </p>
-                <button className="px-4 py-2 bg-primary text-white rounded-md hover:bg-white hover:text-black transition-colors btn-hover-scale">
+                <button className="px-4 py-2 bg-primary text-white rounded-md hover:bg-red-600 hover:text-white transition-colors btn-hover-scale">
                   Contactar soporte
                 </button>
               </div>

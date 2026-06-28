@@ -1,6 +1,6 @@
 import { MessageCircle } from 'lucide-react';
 
-const WHATSAPP_URL = 'https://wa.me/5493534128474?text=Hola%20Cris%20Metal%2C%20quiero%20consultar%20por%20escapes%204T.';
+const WHATSAPP_URL = 'https://wa.me/5493534093888?text=Hola%20Cris%20Metal%2C%20quiero%20consultar%20por%20escapes%204T.';
 
 export default function WhatsAppFloat() {
   return (

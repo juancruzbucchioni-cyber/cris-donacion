@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { ChevronDown, ChevronUp, Search } from 'lucide-react';
 
 // FAQ data
@@ -253,7 +253,7 @@ export default function FAQ() {
         </p>
         <a
           href="/contact"
-          className="inline-block px-6 py-3 bg-primary text-white rounded-md hover:bg-white hover:text-black transition-colors"
+          className="inline-block px-6 py-3 bg-primary text-white rounded-md hover:bg-red-600 hover:text-white transition-colors"
         >
           Contactar soporte
         </a>

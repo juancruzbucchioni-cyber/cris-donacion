@@ -31,7 +31,7 @@ const ProductCard = memo(function ProductCard({
 
     if (isOnRequest) {
       const message = `Hola Cris Metal, quiero consultar por ${product.name}. Modelo: _____.`;
-      window.open(`https://wa.me/5493534128474?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+      window.open(`https://wa.me/5493534093888?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
       return;
     }
 
@@ -105,7 +105,7 @@ const ProductCard = memo(function ProductCard({
             disabled={!isOnRequest && product.stock === 0}
             className={`flex items-center justify-center gap-2 rounded-full py-3 text-sm font-black uppercase transition-all duration-300 active:scale-95 ${
               product.stock > 0 || isOnRequest
-                ? 'bg-white text-black hover:bg-gray-200'
+                ? 'bg-white text-black hover:bg-red-500'
                 : 'cursor-not-allowed bg-gray-500/60 text-gray-300'
             }`}
             aria-label={isOnRequest ? 'Consultar por WhatsApp' : product.stock > 0 ? (isInCart ? 'Actualizar carrito' : 'Agregar al carrito') : 'No disponible'}
@@ -115,7 +115,7 @@ const ProductCard = memo(function ProductCard({
           </button>
           <button
             onClick={handleQuickView}
-            className="flex items-center justify-center gap-2 rounded-full border border-white/70 py-3 text-sm font-black uppercase text-white transition-all duration-300 hover:bg-white hover:text-black"
+            className="flex items-center justify-center gap-2 rounded-full border border-white/70 py-3 text-sm font-black uppercase text-white transition-all duration-300 hover:bg-red-600 hover:text-white"
             aria-label="Ver producto"
           >
             <Eye className="h-4 w-4" />

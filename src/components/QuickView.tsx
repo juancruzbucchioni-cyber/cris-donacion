@@ -41,7 +41,7 @@ const QuickView = memo(function QuickView({ product, onClose }: QuickViewProps) 
   const handleAddToCart = () => {
     if (isOnRequest) {
       const message = `Hola Cris Metal, quiero consultar por ${product.name}. Modelo: ${selectedColor || '_____'}.`;
-      window.open(`https://wa.me/5493534128474?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+      window.open(`https://wa.me/5493534093888?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
       onClose();
       return;
     }
@@ -172,7 +172,7 @@ const QuickView = memo(function QuickView({ product, onClose }: QuickViewProps) 
                 disabled={!isOnRequest && product.stock === 0}
                 className={`w-full flex items-center justify-center space-x-2 py-3 rounded-md transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ${
                   product.stock > 0 || isOnRequest
-                    ? 'bg-primary hover:bg-white hover:text-black text-white'
+                    ? 'bg-primary hover:bg-red-600 hover:text-white text-white'
                     : 'bg-gray-300 cursor-not-allowed text-gray-500'
                 }`}
               >

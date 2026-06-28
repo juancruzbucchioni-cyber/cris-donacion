@@ -2,304 +2,82 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Ethnocentric';
-  src: local('Ethnocentric'),
-       url('/fonts/Ethnocentric-Regular.woff2') format('woff2'),
-       url('/fonts/Ethnocentric-Regular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+:root {
+  color-scheme: dark;
+  font-family: Rajdhani, Arial, Helvetica, sans-serif;
+  background: #000;
+  color: #fff;
 }
 
-
-@layer base {
-  :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
-    --card: 0 0% 0%;
-    --card-foreground: 0 0% 100%;
-    --popover: 0 0% 0%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 0 0% 0%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 0 0% 12%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 0 0% 0%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
-  }
+* {
+  box-sizing: border-box;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
 }
 
-@keyframes modalEnter {
-  from {
-    opacity: 0;
-    transform: scale(0.95) translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes reviewsTicker {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-@layer components {
-  .animate-modal-enter {
-    animation: modalEnter 0.3s ease-out;
-  }
-
-  .animate-fade-in {
-    animation: fadeIn 0.3s ease-out;
-  }
-
-  .reviews-ticker-track {
-    width: max-content;
-    animation: reviewsTicker 28s linear infinite;
-  }
-
-  .review-ribbon-card {
-    position: relative;
-    background: #b91c1c;
-    border: 1px solid rgba(255, 255, 255, 0.86);
-    clip-path: polygon(0 8%, 50% 0, 100% 8%, 100% 92%, 50% 100%, 0 92%);
-    box-shadow: 0 0 22px rgba(239, 68, 68, 0.34);
-  }
-
-  .transform-gpu {
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-    perspective: 1000px;
-    will-change: transform;
-  }
-}
-
-/* Global Styles */
-html,
 body {
   min-height: 100%;
-  @apply transition-colors duration-300;
-  color: #fff;
+  margin: 0;
   background: #000;
 }
 
-body {
-  font-family: 'Rajdhani', sans-serif;
+button,
+input,
+select {
+  font: inherit;
 }
 
-.font-brand {
-  font-family: 'Ethnocentric', 'Rajdhani', sans-serif;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+input,
+select,
+button,
+a {
+  accent-color: #dc2626;
 }
 
-/* Container utility override */
-.container {
-  @apply max-w-7xl mx-auto px-4;
+input[type='range'] {
+  accent-color: #dc2626;
 }
 
-/* Buttons */
-.btn {
-  @apply px-4 py-2 rounded-lg transition-all duration-300;
+input[type='range']::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #dc2626, #7f1d1d);
 }
 
-.btn-primary {
-  @apply bg-white text-black hover:bg-gray-200;
+input[type='range']::-webkit-slider-thumb {
+  margin-top: -5px;
+  height: 18px;
+  width: 18px;
+  border-radius: 999px;
+  background: #ef4444;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.22);
+  appearance: none;
 }
 
-.btn-secondary {
-  @apply bg-secondary text-gray-800 hover:bg-yellow-500;
+input[type='range']::-moz-range-track {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #dc2626, #7f1d1d);
 }
 
-/* Card shadow */
-.card {
-  @apply bg-white/10 text-white p-4 rounded-lg shadow-lg transition-all duration-300;
-  backdrop-filter: blur(14px);
+input[type='range']::-moz-range-thumb {
+  height: 18px;
+  width: 18px;
+  border-radius: 999px;
+  background: #ef4444;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.22);
 }
 
-.product-sale-card {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 0 0 rgba(255, 255, 255, 0);
-  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+img {
+  max-width: 100%;
 }
 
-.product-sale-card::after {
-  content: '';
-  position: absolute;
-  left: 20px;
-  right: 20px;
-  bottom: 0;
-  height: 3px;
-  background: #fff;
-  opacity: 0;
-  transform: scaleX(0.35);
-  transform-origin: center;
-  transition: opacity 220ms ease, transform 220ms ease;
-}
-
-.product-sale-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.42);
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 18px 34px rgba(255, 255, 255, 0.18);
-}
-
-.product-sale-card:hover::after {
-  opacity: 1;
-  transform: scaleX(1);
-}
-
-/* Modern accent borders */
-.accent-border {
-  @apply border-l-4 border-primary pl-4;
-}
-
-.accent-border-secondary {
-  @apply border-l-4 border-secondary pl-4;
-}
-
-/* Gradient backgrounds */
-.gradient-primary {
-  @apply bg-gradient-to-r from-white to-gray-400;
-}
-
-.gradient-secondary {
-  @apply bg-gradient-to-r from-yellow-300 to-secondary;
-}
-
-/* Enhanced link hover effects */
-.link-hover {
-  @apply relative inline-block;
-}
-
-.link-hover::after {
-  content: '';
-  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-in-out;
-}
-
-.link-hover:hover::after {
-  @apply w-full;
-}
-
-/* Button hover effects */
-.btn-hover-scale {
-  @apply transform transition-transform duration-300 hover:scale-105;
-}
-
-.btn-hover-shadow {
-  @apply transition-shadow duration-300 hover:shadow-lg;
-}
-
-/* Rebrand override: the site is now a black/white storefront. */
-#root,
-main,
-section {
+::selection {
+  background: #dc2626;
   color: #fff;
 }
-
-.text-primary,
-.hover\:text-primary:hover {
-  color: #fff !important;
-  text-shadow: none !important;
-}
-
-.bg-primary {
-  background-color: #fff !important;
-  color: #000 !important;
-}
-
-.border-primary,
-.border-primary\/30,
-.border-primary\/40 {
-  border-color: rgba(255, 255, 255, 0.35) !important;
-}
-
-.bg-white,
-.dark\:bg-gray-800,
-.dark\:bg-gray-700 {
-  background-color: #050505 !important;
-}
-
-.text-gray-900,
-.text-gray-800,
-.text-gray-700,
-.text-gray-600,
-.text-gray-500,
-.text-gray-400,
-.text-black,
-.dark\:text-white,
-.dark\:text-gray-300 {
-  color: #fff !important;
-}
-
-.text-red-600,
-.text-red-500,
-.text-red-400,
-.text-red-300,
-.dark\:text-red-400 {
-  color: #fff !important;
-}
-
-.bg-red-600,
-.bg-red-500 {
-  background-color: #fff !important;
-  color: #000 !important;
-}
-
-

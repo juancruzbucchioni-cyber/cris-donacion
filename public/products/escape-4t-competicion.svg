@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="640" viewBox="0 0 900 640" role="img" aria-label="Escape 4T competicion">
+  <rect width="900" height="640" rx="28" fill="#121212"/>
+  <defs><linearGradient id="s" x1="0" x2="1"><stop offset="0" stop-color="#646464"/><stop offset=".25" stop-color="#fff"/><stop offset=".55" stop-color="#909090"/><stop offset="1" stop-color="#f4f4f4"/></linearGradient></defs>
+  <path d="M160 390c180-112 345-150 545-116 42 7 70 47 62 89-8 40-47 66-87 58-148-29-278-2-423 88-36 22-83 11-105-25-22-36-11-82 8-94z" fill="url(#s)"/>
+  <path d="M520 255l165 14c44 4 79 39 84 84" fill="none" stroke="#ef1b2d" stroke-width="42" stroke-linecap="round"/>
+  <text x="62" y="110" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="900">4T COMPETICION</text>
+  <text x="62" y="155" fill="#ef1b2d" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="900">ACERO INOXIDABLE</text>
+</svg>

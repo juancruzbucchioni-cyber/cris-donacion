@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Taller de escapes para motos">
+  <rect width="1600" height="900" fill="#080808"/>
+  <defs>
+    <linearGradient id="metal" x1="0" x2="1">
+      <stop offset="0" stop-color="#5f5f5f"/>
+      <stop offset=".22" stop-color="#eeeeee"/>
+      <stop offset=".48" stop-color="#8b8b8b"/>
+      <stop offset=".78" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#4a4a4a"/>
+    </linearGradient>
+    <radialGradient id="redGlow" cx=".72" cy=".48" r=".48">
+      <stop offset="0" stop-color="#ef1b2d" stop-opacity=".62"/>
+      <stop offset=".46" stop-color="#7f1018" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="0" y="0" width="1600" height="900" fill="url(#redGlow)"/>
+  <rect x="95" y="115" width="1410" height="650" rx="30" fill="#111" stroke="#343434" stroke-width="2"/>
+  <path d="M150 690h1300" stroke="#2d2d2d" stroke-width="8"/>
+  <path d="M1080 215l155 10c52 4 95 42 105 93l11 58" fill="none" stroke="url(#metal)" stroke-width="52" stroke-linecap="round"/>
+  <path d="M510 612c165-102 346-162 548-180 96-9 204-2 325 20" fill="none" stroke="url(#metal)" stroke-width="90" stroke-linecap="round"/>
+  <path d="M618 575c141-73 296-115 465-127 84-6 178 1 282 20" fill="none" stroke="#141414" stroke-width="42" stroke-linecap="round"/>
+  <circle cx="430" cy="646" r="78" fill="#0a0a0a" stroke="#e7e7e7" stroke-width="20"/>
+  <circle cx="1140" cy="646" r="78" fill="#0a0a0a" stroke="#e7e7e7" stroke-width="20"/>
+  <path d="M350 645h900" stroke="#d9d9d9" stroke-width="34" stroke-linecap="round"/>
+  <path d="M405 510h365c82 0 152 51 180 128" fill="none" stroke="#ef1b2d" stroke-width="28" stroke-linecap="round"/>
+  <path d="M250 415h250" stroke="#ef1b2d" stroke-width="18" stroke-linecap="round"/>
+  <path d="M250 455h190" stroke="#f2f2f2" stroke-width="10" stroke-linecap="round"/>
+  <text x="180" y="250" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="900" letter-spacing="3">CRIS METAL</text>
+  <text x="180" y="322" fill="#ef1b2d" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="900" letter-spacing="5">ESCAPES 4 TIEMPOS</text>
+  <text x="180" y="370" fill="#b9b9b9" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700">Acero inoxidable, rendimiento y sonido deportivo.</text>
+</svg>

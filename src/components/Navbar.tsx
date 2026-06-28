@@ -4,8 +4,8 @@ import { LogOut, Search, ShoppingCart, User } from 'lucide-react';
 import { useCartStore } from '../store/cartStore';
 import { useAuthStore } from '../store/authStore';
 
-const INSTAGRAM_URL = 'https://www.instagram.com/juan.bucchioni';
-const WHATSAPP_URL = 'https://wa.me/5493534128474?text=Hola%20Cris%20Metal%2C%20quiero%20consultar%20por%20un%20escape%204T.';
+const INSTAGRAM_URL = 'https://www.instagram.com/cr.crismetal';
+const WHATSAPP_URL = 'https://wa.me/5493534093888?text=Hola%20Cris%20Metal%2C%20quiero%20consultar%20por%20un%20escape%204T.';
 
 export default function Navbar() {
   const cartItems = useCartStore((state) => state.items);

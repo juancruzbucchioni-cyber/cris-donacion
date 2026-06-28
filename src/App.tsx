@@ -1,98 +1,28 @@
-import { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import WhatsAppFloat from './components/WhatsAppFloat';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import Header from './components/Header';
+import FooterBasic from './components/FooterBasic';
 import Home from './pages/Home';
-import Offers from './pages/Offers';
 import Products from './pages/Products';
-import ProductDetail from './pages/ProductDetail';
-import Cart from './pages/Cart';
-import Auth from './pages/Auth';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import Terms from './pages/Terms';
-import { useAuthStore } from './store/authStore';
-import ShippingPolicy from './pages/ShippingPolicy';
-import Returns from './pages/Returns';
-import OrderTracking from './pages/OrderTracking';
 import About from './pages/About';
-import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
-import Sitemap from './pages/Sitemap';
-import Categories from './pages/Categories';
-import Profile from './pages/Profile';
-import CustomPanel from './pages/CustomPanel';
-import { isSupabaseConfigured, supabase } from './lib/supabase';
-import './styles/animations.css';
 
-function App() {
-  const { checkUser } = useAuthStore();
-
-  useEffect(() => {
-    if (!isSupabaseConfigured) {
-      checkUser();
-      return;
-    }
-
-    // Initialize auth state when the app loads
-    const initAuth = async () => {
-      await checkUser();
-    };
-    
-    initAuth();
-    
-    // Set up auth state change listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) {
-        checkUser();
-      } else {
-        checkUser();
-      }
-    });
-
-    // Clean up subscription on unmount
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [checkUser]);
-
+export default function App() {
   return (
-    <div className="flex flex-col min-h-screen bg-transparent transition-all duration-300">
-      {/* Navbar */}
-      <Navbar />
-
-      {/* Soft transitions */}
-      <main className="flex-grow container py-10 animate-fadeInUp">
+    <div className="min-h-screen bg-black text-white">
+      <Header />
+      <main className="pt-32 sm:pt-24">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/offers" element={<Offers />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/products/:id" element={<ProductDetail />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/shipping" element={<ShippingPolicy />} />
-          <Route path="/returns" element={<Returns />} />
-          <Route path="/orders" element={<OrderTracking />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/sitemap" element={<Sitemap />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/cris-metal-control" element={<CustomPanel />} />
+          <Route path="/productos" element={<Products />} />
+          <Route path="/nosotros" element={<About />} />
+          <Route path="/contacto" element={<Contact />} />
+          <Route path="/products" element={<Navigate to="/productos" replace />} />
+          <Route path="/about" element={<Navigate to="/nosotros" replace />} />
+          <Route path="/contact" element={<Navigate to="/contacto" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-
-      {/* Footer */}
-      <Footer />
-      <WhatsAppFloat />
-      
+      <FooterBasic />
     </div>
   );
 }
-
-export default App;
-
-

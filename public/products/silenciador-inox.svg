@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="640" viewBox="0 0 900 640" role="img" aria-label="Silenciador inoxidable">
+  <rect width="900" height="640" rx="28" fill="#151515"/>
+  <defs><linearGradient id="s" x1="0" x2="1"><stop offset="0" stop-color="#5b5b5b"/><stop offset=".2" stop-color="#fff"/><stop offset=".5" stop-color="#8d8d8d"/><stop offset=".78" stop-color="#f9f9f9"/><stop offset="1" stop-color="#6a6a6a"/></linearGradient></defs>
+  <rect x="176" y="284" width="545" height="118" rx="59" fill="url(#s)"/>
+  <rect x="116" y="316" width="116" height="54" rx="27" fill="#ef1b2d"/>
+  <rect x="670" y="309" width="120" height="68" rx="34" fill="#222" stroke="#eee" stroke-width="12"/>
+  <text x="62" y="110" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="900">SILENCIADOR INOX</text>
+  <text x="62" y="155" fill="#ef1b2d" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="900">TERMINACION METALICA</text>
+</svg>

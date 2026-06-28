@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { Mail, Lock, LogIn, UserPlus, User as UserIcon } from 'lucide-react';
@@ -165,7 +165,7 @@ export default function Auth() {
           <button
             type="submit"
             disabled={isSubmitting || !!successMessage}
-            className="w-full flex items-center justify-center bg-primary text-white px-4 py-2 rounded-lg hover:bg-white hover:text-black transition-colors disabled:bg-gray-400 btn-hover-scale"
+            className="w-full flex items-center justify-center bg-primary text-white px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white transition-colors disabled:bg-gray-400 btn-hover-scale"
           >
             {isSubmitting ? (
               <span className="flex items-center">
@@ -195,7 +195,7 @@ export default function Auth() {
               setIsSignUp(!isSignUp);
               setAuthError(null);
             }}
-            className="text-primary hover:text-gray-300 transition-colors link-hover"
+            className="text-primary hover:text-red-300 transition-colors link-hover"
           >
             {isSignUp ? 'Already have an account? Iniciar sesion' : 'Need an account? Registrarse'}
           </button>
@@ -204,11 +204,11 @@ export default function Auth() {
         <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
           <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
             By signing in or creating an account, you agree to our{' '}
-            <a href="/terms" className="text-primary hover:text-gray-300 transition-colors link-hover">
+            <a href="/terms" className="text-primary hover:text-red-300 transition-colors link-hover">
               Terminos del servicio
             </a>{' '}
             and{' '}
-            <a href="/privacy" className="text-primary hover:text-gray-300 transition-colors link-hover">
+            <a href="/privacy" className="text-primary hover:text-red-300 transition-colors link-hover">
               Politica de privacidad
             </a>
             .

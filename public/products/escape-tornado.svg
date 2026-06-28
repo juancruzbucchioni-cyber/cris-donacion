@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="640" viewBox="0 0 900 640" role="img" aria-label="Escape Tornado">
+  <rect width="900" height="640" rx="28" fill="#101010"/>
+  <defs><linearGradient id="s" x1="0" x2="1"><stop offset="0" stop-color="#555"/><stop offset=".2" stop-color="#efefef"/><stop offset=".52" stop-color="#777"/><stop offset="1" stop-color="#fff"/></linearGradient></defs>
+  <path d="M140 375c150-95 305-128 502-115 55 4 95 51 90 106-4 54-52 92-106 84-151-22-268 1-398 74-41 23-93 8-116-33-22-40-10-91 28-116z" fill="url(#s)"/>
+  <path d="M575 248l140 9c41 3 74 34 82 74" fill="none" stroke="#ef1b2d" stroke-width="36" stroke-linecap="round"/>
+  <text x="62" y="110" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="900">TORNADO / XR</text>
+  <text x="62" y="155" fill="#ef1b2d" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="900">SONIDO DEPORTIVO</text>
+</svg>

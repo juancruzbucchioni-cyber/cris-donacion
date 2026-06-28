@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Instagram, MapPin, Phone } from 'lucide-react';
 
-const INSTAGRAM_URL = 'https://www.instagram.com/juan.bucchioni';
-const WHATSAPP_URL = 'https://wa.me/5493534128474?text=Hola%20Cris%20Metal%2C%20quiero%20consultar%20por%20escapes%204T.';
+const INSTAGRAM_URL = 'https://www.instagram.com/cr.crismetal';
+const WHATSAPP_URL = 'https://wa.me/5493534093888?text=Hola%20Cris%20Metal%2C%20quiero%20consultar%20por%20escapes%204T.';
 
 export default function Footer() {
   return (
@@ -16,7 +16,7 @@ export default function Footer() {
             </p>
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 font-bold text-white transition-colors hover:text-red-300">
               <Instagram className="h-5 w-5" />
-              @juan.bucchioni
+              @cr.crismetal
             </a>
           </div>
 
@@ -33,8 +33,8 @@ export default function Footer() {
             <h3 className="font-brand mb-4 text-lg font-semibold text-white">Contacto</h3>
             <ul className="space-y-3 text-gray-200">
               <li className="flex items-start"><MapPin className="mr-2 mt-0.5 h-5 w-5 text-white" /><span>Argentina</span></li>
-              <li className="flex items-center"><Phone className="mr-2 h-5 w-5 text-white" /><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="hover:text-white hover:underline">3534128474</a></li>
-              <li className="flex items-center"><Instagram className="mr-2 h-5 w-5 text-white" /><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-white hover:underline">@juan.bucchioni</a></li>
+              <li className="flex items-center"><Phone className="mr-2 h-5 w-5 text-white" /><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="hover:text-white hover:underline">3534093888</a></li>
+              <li className="flex items-center"><Instagram className="mr-2 h-5 w-5 text-white" /><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-white hover:underline">@cr.crismetal</a></li>
             </ul>
           </div>
         </div>

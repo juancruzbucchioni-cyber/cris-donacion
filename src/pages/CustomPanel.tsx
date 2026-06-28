@@ -103,7 +103,7 @@ const emptyOffer: OfferForm = {
   orden: '0',
 };
 
-const fieldClass = 'w-full rounded-md border border-white/35 bg-black/60 px-3 py-2 text-sm text-white placeholder:text-gray-400 focus:border-white focus:outline-none';
+const fieldClass = 'w-full rounded-md border border-white/35 bg-black/60 px-3 py-2 text-sm text-white placeholder:text-gray-400 focus:border-red-500 focus:outline-none';
 const labelClass = 'text-sm font-semibold text-gray-200';
 const panelClass = 'rounded-lg border border-white/30 bg-black/60 p-4 backdrop-blur-sm';
 
