@@ -6,6 +6,7 @@ import Products from './pages/Products';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import AdminProducts from './pages/AdminProducts';
+import ProductView from './pages/ProductView';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/productos" element={<Products />} />
+          <Route path="/productos/:productId" element={<ProductView />} />
           <Route path="/nosotros" element={<About />} />
           <Route path="/contacto" element={<Contact />} />
           <Route path="/admin" element={<AdminProducts />} />

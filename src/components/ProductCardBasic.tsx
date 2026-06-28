@@ -1,5 +1,6 @@
 import { Search } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ExhaustProduct } from '../data/products';
 import { buildWhatsAppUrl } from '../lib/whatsapp';
 
@@ -40,6 +41,12 @@ export default function ProductCardBasic({ product }: ProductCardBasicProps) {
           <h3 className="mt-2 text-2xl font-black text-white">{product.name}</h3>
         </div>
         <p className="min-h-12 text-sm leading-relaxed text-gray-300">{product.description}</p>
+        <Link
+          to={`/productos/${product.id}`}
+          className="inline-flex w-full items-center justify-center rounded-md border border-red-600/70 px-5 py-3 text-sm font-black uppercase text-white transition hover:border-red-500 hover:bg-red-600"
+        >
+          Ver fotos
+        </Link>
         <a
           href={buildWhatsAppUrl(message)}
           target="_blank"

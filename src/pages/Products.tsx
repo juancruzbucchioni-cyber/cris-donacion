@@ -2,28 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import ProductCardBasic from '../components/ProductCardBasic';
 import ProductFilters from '../components/ProductFilters';
 import { ExhaustProduct } from '../data/products';
-import { isSupabaseConfigured, supabase } from '../lib/supabase';
-import { Product, ProductImage } from '../types/supabase';
-
-function toCatalogProducts(productData: Product[], imageData: ProductImage[]): ExhaustProduct[] {
-  const imagesByProduct = imageData.reduce<Record<string, string[]>>((acc, image) => {
-    acc[image.product_id] = [...(acc[image.product_id] || []), image.image_url];
-    return acc;
-  }, {});
-
-  return productData.map((product) => {
-    const images = imagesByProduct[product.id]?.length ? imagesByProduct[product.id] : [product.image_url];
-
-    return {
-      id: product.id,
-      name: product.name,
-      moto: product.category || 'Consultar',
-      description: product.description,
-      image: images[0] || product.image_url || '/branding/cris-metal-logo.png',
-      images,
-    };
-  });
-}
+import { loadCatalogProducts } from '../lib/catalog';
+import { isSupabaseConfigured } from '../lib/supabase';
 
 export default function Products() {
   const [search, setSearch] = useState('');
@@ -43,14 +23,8 @@ export default function Products() {
         return;
       }
 
-      const [{ data: productData, error: productError }, { data: imageData, error: imageError }] = await Promise.all([
-        supabase.from('products').select('*').order('category', { ascending: true }).order('name', { ascending: true }),
-        supabase.from('product_images').select('*').order('created_at', { ascending: true }),
-      ]);
-
-      if (!productError && !imageError && productData) {
-        setCatalogProducts(toCatalogProducts(productData as Product[], (imageData || []) as ProductImage[]));
-      }
+      const loadedProducts = await loadCatalogProducts();
+      setCatalogProducts(loadedProducts);
 
       setLoadingCatalog(false);
     }
