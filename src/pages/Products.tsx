@@ -44,7 +44,7 @@ export default function Products() {
 
       const [{ data: productData, error: productError }, { data: imageData, error: imageError }] = await Promise.all([
         supabase.from('products').select('*').order('category', { ascending: true }).order('name', { ascending: true }),
-        supabase.from('product_images').select('*').order('display_order', { ascending: true }),
+        supabase.from('product_images').select('*').order('created_at', { ascending: true }),
       ]);
 
       if (!productError && !imageError && productData && productData.length > 0) {

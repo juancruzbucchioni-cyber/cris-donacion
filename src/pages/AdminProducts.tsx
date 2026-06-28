@@ -48,7 +48,7 @@ export default function AdminProducts() {
   const loadProducts = async () => {
     const [{ data: productData, error: productError }, { data: imageData, error: imageError }] = await Promise.all([
       supabase.from('products').select('*').order('created_at', { ascending: false }),
-      supabase.from('product_images').select('*').order('display_order', { ascending: true }),
+      supabase.from('product_images').select('*').order('created_at', { ascending: true }),
     ]);
 
     if (productError || imageError) {
@@ -158,7 +158,6 @@ export default function AdminProducts() {
           product_id: savedProduct.id,
           image_url: imageUrl,
           is_primary: index === 0,
-          display_order: index + 1,
         }))
       );
 

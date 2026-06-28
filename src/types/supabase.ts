@@ -66,7 +66,7 @@ export type ProductImage = {
   product_id: string;
   image_url: string;
   is_primary: boolean;
-  display_order: number;
+  display_order?: number;
   created_at: string;
 };
 
