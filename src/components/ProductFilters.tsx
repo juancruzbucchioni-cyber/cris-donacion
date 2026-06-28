@@ -1,8 +1,7 @@
-import { motos } from '../data/products';
-
 type ProductFiltersProps = {
   search: string;
   selectedMoto: string;
+  motos: string[];
   onSearchChange: (value: string) => void;
   onMotoChange: (value: string) => void;
 };
@@ -10,6 +9,7 @@ type ProductFiltersProps = {
 export default function ProductFilters({
   search,
   selectedMoto,
+  motos,
   onSearchChange,
   onMotoChange,
 }: ProductFiltersProps) {

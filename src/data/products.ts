@@ -4,6 +4,7 @@ export type ExhaustProduct = {
   moto: string;
   description: string;
   image: string;
+  images?: string[];
 };
 
 export const products: ExhaustProduct[] = [
@@ -13,6 +14,7 @@ export const products: ExhaustProduct[] = [
     moto: 'Universal 4T',
     description: 'Linea deportiva en acero inoxidable para mejorar salida, presencia y sonido.',
     image: '/products/escape-4t-competicion.svg',
+    images: ['/products/escape-4t-competicion.svg'],
   },
   {
     id: 'escape-tornado-xr',
@@ -20,6 +22,7 @@ export const products: ExhaustProduct[] = [
     moto: 'Honda Tornado / XR',
     description: 'Modelo pensado para motos de calle y enduro con sonido firme y terminacion prolija.',
     image: '/products/escape-tornado.svg',
+    images: ['/products/escape-tornado.svg'],
   },
   {
     id: 'silenciador-inox',
@@ -27,6 +30,7 @@ export const products: ExhaustProduct[] = [
     moto: '150cc / 250cc',
     description: 'Silenciador de acero inoxidable con terminacion metalica y estilo deportivo.',
     image: '/products/silenciador-inox.svg',
+    images: ['/products/silenciador-inox.svg'],
   },
   {
     id: 'sistema-a-medida',
@@ -34,6 +38,7 @@ export const products: ExhaustProduct[] = [
     moto: 'A medida',
     description: 'Fabricacion personalizada segun modelo, anclajes y uso de la moto.',
     image: '/products/sistema-a-medida.svg',
+    images: ['/products/sistema-a-medida.svg'],
   },
 ];
 

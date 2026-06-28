@@ -36,7 +36,7 @@ export default function Contact() {
         <div className="rounded-lg border border-white/10 bg-zinc-950 p-6">
           <MapPin className="h-8 w-8 text-red-500" />
           <h2 className="mt-4 text-2xl font-black text-white">Direccion</h2>
-          <p className="mt-2 text-gray-300">Argentina</p>
+          <p className="mt-2 text-gray-300">Villa Maria, Cordoba, Argentina</p>
         </div>
 
         <div className="rounded-lg border border-white/10 bg-zinc-950 p-6">

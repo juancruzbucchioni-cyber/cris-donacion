@@ -1,20 +1,70 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ProductCardBasic from '../components/ProductCardBasic';
 import ProductFilters from '../components/ProductFilters';
-import { products } from '../data/products';
+import { ExhaustProduct, products as fallbackProducts } from '../data/products';
+import { isSupabaseConfigured, supabase } from '../lib/supabase';
+import { Product, ProductImage } from '../types/supabase';
+
+function toCatalogProducts(productData: Product[], imageData: ProductImage[]): ExhaustProduct[] {
+  const imagesByProduct = imageData.reduce<Record<string, string[]>>((acc, image) => {
+    acc[image.product_id] = [...(acc[image.product_id] || []), image.image_url];
+    return acc;
+  }, {});
+
+  return productData.map((product) => {
+    const images = imagesByProduct[product.id]?.length ? imagesByProduct[product.id] : [product.image_url];
+
+    return {
+      id: product.id,
+      name: product.name,
+      moto: product.category || 'Consultar',
+      description: product.description,
+      image: images[0] || product.image_url || '/branding/cris-metal-logo.png',
+      images,
+    };
+  });
+}
 
 export default function Products() {
   const [search, setSearch] = useState('');
   const [selectedMoto, setSelectedMoto] = useState('Todas');
+  const [catalogProducts, setCatalogProducts] = useState<ExhaustProduct[]>(fallbackProducts);
+  const [loadingCatalog, setLoadingCatalog] = useState(true);
+  const motos = useMemo(
+    () => ['Todas', ...Array.from(new Set(catalogProducts.map((product) => product.moto))).filter(Boolean)],
+    [catalogProducts]
+  );
+
+  useEffect(() => {
+    async function loadCatalog() {
+      if (!isSupabaseConfigured) {
+        setLoadingCatalog(false);
+        return;
+      }
+
+      const [{ data: productData, error: productError }, { data: imageData, error: imageError }] = await Promise.all([
+        supabase.from('products').select('*').order('category', { ascending: true }).order('name', { ascending: true }),
+        supabase.from('product_images').select('*').order('display_order', { ascending: true }),
+      ]);
+
+      if (!productError && !imageError && productData && productData.length > 0) {
+        setCatalogProducts(toCatalogProducts(productData as Product[], (imageData || []) as ProductImage[]));
+      }
+
+      setLoadingCatalog(false);
+    }
+
+    loadCatalog();
+  }, []);
 
   const filteredProducts = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
-    return products.filter((product) => {
+    return catalogProducts.filter((product) => {
       const matchesName = product.name.toLowerCase().includes(normalizedSearch);
       const matchesMoto = selectedMoto === 'Todas' || product.moto === selectedMoto;
       return matchesName && matchesMoto;
     });
-  }, [search, selectedMoto]);
+  }, [catalogProducts, search, selectedMoto]);
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 pb-16">
@@ -29,9 +79,16 @@ export default function Products() {
       <ProductFilters
         search={search}
         selectedMoto={selectedMoto}
+        motos={motos}
         onSearchChange={setSearch}
         onMotoChange={setSelectedMoto}
       />
+
+      {loadingCatalog ? (
+        <div className="mt-6 rounded-lg border border-white/10 bg-white/5 p-4 text-sm text-gray-300">
+          Cargando catalogo...
+        </div>
+      ) : null}
 
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {filteredProducts.map((product) => (

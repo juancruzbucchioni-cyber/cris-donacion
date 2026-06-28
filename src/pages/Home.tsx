@@ -37,7 +37,7 @@ export default function Home() {
           <img
             src="/branding/cris-metal-main-hero.png"
             alt="Escapes Cris Metal Exhaust"
-            className="h-[320px] w-full object-cover sm:h-[430px] lg:h-[560px]"
+            className="h-auto w-full object-contain sm:h-[430px] sm:object-cover lg:h-[560px]"
             loading="eager"
             decoding="sync"
           />
