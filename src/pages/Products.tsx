@@ -47,7 +47,7 @@ export default function Products() {
         supabase.from('product_images').select('*').order('created_at', { ascending: true }),
       ]);
 
-      if (!productError && !imageError && productData && productData.length > 0) {
+      if (!productError && !imageError && productData) {
         setCatalogProducts(toCatalogProducts(productData as Product[], (imageData || []) as ProductImage[]));
       }
 

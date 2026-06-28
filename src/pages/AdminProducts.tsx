@@ -29,6 +29,16 @@ function groupImages(images: ProductImage[]) {
   }, {});
 }
 
+function getAdminErrorMessage(error: unknown) {
+  const message = error instanceof Error ? error.message : 'No se pudo guardar el producto.';
+
+  if (message.toLowerCase().includes('row-level security')) {
+    return 'Permiso bloqueado por Supabase. Ejecuta el SQL de permisos del proyecto para habilitar cargas desde /admin.';
+  }
+
+  return message;
+}
+
 export default function AdminProducts() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -134,6 +144,10 @@ export default function AdminProducts() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const removeSelectedFile = (fileIndex: number) => {
+    setFiles((currentFiles) => currentFiles.filter((_, index) => index !== fileIndex));
+  };
+
   const saveProduct = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -196,7 +210,7 @@ export default function AdminProducts() {
       setMessage(editingProductId ? 'Producto actualizado en el catalogo.' : 'Producto publicado en el catalogo.');
       await loadProducts();
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'No se pudo guardar el producto.');
+      setMessage(getAdminErrorMessage(error));
     } finally {
       setSaving(false);
     }
@@ -357,9 +371,23 @@ export default function AdminProducts() {
           ) : null}
           {files.length > 0 ? (
             <div className="mt-3 grid grid-cols-3 gap-2">
-              {files.map((file) => (
-                <img key={`${file.name}-${file.lastModified}`} src={URL.createObjectURL(file)} alt={file.name} className="aspect-square rounded-md object-cover" />
-              ))}
+              {files.map((file, index) => {
+                const previewUrl = URL.createObjectURL(file);
+
+                return (
+                  <div key={`${file.name}-${file.lastModified}`} className="relative overflow-hidden rounded-md border border-white/10">
+                    <img src={previewUrl} alt={file.name} className="aspect-square w-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => removeSelectedFile(index)}
+                      className="absolute right-1 top-1 rounded bg-black/80 p-1 text-red-200 transition hover:bg-red-600 hover:text-white"
+                      title="Quitar imagen elegida"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           ) : null}
           <button disabled={saving} className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-red-600 px-5 py-3 font-black uppercase text-white transition hover:bg-red-500 disabled:opacity-60">
