@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { Edit, ImagePlus, LogOut, RefreshCw, Trash2, X } from 'lucide-react';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
 import { Product, ProductImage } from '../types/supabase';
@@ -50,6 +50,7 @@ export default function AdminProducts() {
   const [editingProductId, setEditingProductId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const sortedProducts = useMemo(
     () => [...products].sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })),
@@ -128,6 +129,7 @@ export default function AdminProducts() {
     setForm(emptyForm);
     setFiles([]);
     setEditingProductId(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const editProduct = (product: Product) => {
@@ -145,7 +147,16 @@ export default function AdminProducts() {
   };
 
   const removeSelectedFile = (fileIndex: number) => {
-    setFiles((currentFiles) => currentFiles.filter((_, index) => index !== fileIndex));
+    setFiles((currentFiles) => {
+      const nextFiles = currentFiles.filter((_, index) => index !== fileIndex);
+      if (nextFiles.length === 0 && fileInputRef.current) fileInputRef.current.value = '';
+      return nextFiles;
+    });
+  };
+
+  const clearSelectedFiles = () => {
+    setFiles([]);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const saveProduct = async (event: FormEvent) => {
@@ -334,6 +345,7 @@ export default function AdminProducts() {
           <label className="mt-4 block text-sm font-bold text-gray-200">
             Imagenes de la publicacion
             <input
+              ref={fileInputRef}
               required={!editingProductId}
               multiple
               type="file"
@@ -370,24 +382,32 @@ export default function AdminProducts() {
             </div>
           ) : null}
           {files.length > 0 ? (
-            <div className="mt-3 grid grid-cols-3 gap-2">
-              {files.map((file, index) => {
-                const previewUrl = URL.createObjectURL(file);
+            <div className="mt-3 space-y-3">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-gray-400">Imagenes elegidas</p>
+                <button type="button" onClick={clearSelectedFiles} className="text-xs font-black uppercase text-red-300 transition hover:text-red-100">
+                  Quitar todas
+                </button>
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {files.map((file, index) => {
+                  const previewUrl = URL.createObjectURL(file);
 
-                return (
-                  <div key={`${file.name}-${file.lastModified}`} className="relative overflow-hidden rounded-md border border-white/10">
-                    <img src={previewUrl} alt={file.name} className="aspect-square w-full object-cover" />
-                    <button
-                      type="button"
-                      onClick={() => removeSelectedFile(index)}
-                      className="absolute right-1 top-1 rounded bg-black/80 p-1 text-red-200 transition hover:bg-red-600 hover:text-white"
-                      title="Quitar imagen elegida"
-                    >
-                      <X className="h-3.5 w-3.5" />
-                    </button>
-                  </div>
-                );
-              })}
+                  return (
+                    <div key={`${file.name}-${file.lastModified}`} className="relative overflow-hidden rounded-md border border-white/10">
+                      <img src={previewUrl} alt={file.name} className="aspect-square w-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => removeSelectedFile(index)}
+                        className="absolute right-1 top-1 rounded bg-black/80 p-1 text-red-200 transition hover:bg-red-600 hover:text-white"
+                        title="Quitar imagen elegida"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           ) : null}
           <button disabled={saving} className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-red-600 px-5 py-3 font-black uppercase text-white transition hover:bg-red-500 disabled:opacity-60">
@@ -417,10 +437,20 @@ export default function AdminProducts() {
                       <h3 className="mt-1 text-xl font-black text-white">{product.name}</h3>
                       <p className="mt-1 text-sm text-gray-400">{images.length || 1} imagen{(images.length || 1) === 1 ? '' : 'es'}</p>
                     </div>
-                    {images.length > 1 ? (
-                      <div className="flex gap-2 overflow-x-auto pb-1">
+                    {images.length > 0 ? (
+                      <div className="grid grid-cols-4 gap-2">
                         {images.map((image) => (
-                          <img key={image.id} src={image.image_url} alt="" className="h-14 w-16 shrink-0 rounded border border-white/10 object-cover" />
+                          <div key={image.id} className="relative overflow-hidden rounded border border-white/10">
+                            <img src={image.image_url} alt="" className="aspect-square w-full object-cover" />
+                            <button
+                              type="button"
+                              onClick={() => deleteProductImage(product, image)}
+                              className="absolute right-1 top-1 rounded bg-black/80 p-1 text-red-200 transition hover:bg-red-600 hover:text-white"
+                              title="Borrar imagen"
+                            >
+                              <Trash2 className="h-3 w-3" />
+                            </button>
+                          </div>
                         ))}
                       </div>
                     ) : null}
