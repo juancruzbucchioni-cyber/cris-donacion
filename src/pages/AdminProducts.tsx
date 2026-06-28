@@ -9,6 +9,7 @@ type AdminForm = {
   description: string;
   price: string;
   stock: string;
+  imageUrls: string;
 };
 
 const emptyForm: AdminForm = {
@@ -17,6 +18,7 @@ const emptyForm: AdminForm = {
   description: '',
   price: '0',
   stock: '1',
+  imageUrls: '',
 };
 
 const fieldClass =
@@ -37,6 +39,13 @@ function getAdminErrorMessage(error: unknown) {
   }
 
   return message;
+}
+
+function splitImageUrls(value: string) {
+  return value
+    .split(/\r?\n|,/)
+    .map((item) => item.trim())
+    .filter(Boolean);
 }
 
 export default function AdminProducts() {
@@ -140,6 +149,7 @@ export default function AdminProducts() {
       description: product.description || '',
       price: String(product.price || 0),
       stock: String(product.stock || 0),
+      imageUrls: '',
     });
     setFiles([]);
     setMessage(`Editando: ${product.name}`);
@@ -164,8 +174,10 @@ export default function AdminProducts() {
 
     const editingImages = editingProductId ? productImages[editingProductId] || [] : [];
 
-    if (!editingProductId && files.length === 0) {
-      setMessage('Subi al menos una imagen para el producto.');
+    const pastedImageUrls = splitImageUrls(form.imageUrls);
+
+    if (!editingProductId && files.length === 0 && pastedImageUrls.length === 0) {
+      setMessage('Subi al menos una imagen o pega un link para el producto.');
       return;
     }
 
@@ -193,8 +205,9 @@ export default function AdminProducts() {
 
       const savedProduct = productData as Product;
       const imageUrls = await uploadImages(savedProduct.id);
+      const allImageUrls = [...editingImages.map((image) => image.image_url), ...pastedImageUrls, ...imageUrls];
 
-      const coverImage = editingImages[0]?.image_url || imageUrls[0] || savedProduct.image_url;
+      const coverImage = allImageUrls[0] || savedProduct.image_url;
 
       if (coverImage !== savedProduct.image_url) {
         const { error: updateError } = await supabase
@@ -205,9 +218,11 @@ export default function AdminProducts() {
         if (updateError) throw new Error(updateError.message);
       }
 
-      if (imageUrls.length > 0) {
+      const newImageUrls = [...pastedImageUrls, ...imageUrls];
+
+      if (newImageUrls.length > 0) {
         const { error: imagesError } = await supabase.from('product_images').insert(
-          imageUrls.map((imageUrl, index) => ({
+          newImageUrls.map((imageUrl, index) => ({
             product_id: savedProduct.id,
             image_url: imageUrl,
             is_primary: editingImages.length === 0 && index === 0,
@@ -354,6 +369,16 @@ export default function AdminProducts() {
               onChange={(event) => setFiles(Array.from(event.target.files || []))}
             />
           </label>
+          <label className="mt-4 block text-sm font-bold text-gray-200">
+            Links de imagen
+            <textarea
+              className={`${fieldClass} min-h-24`}
+              placeholder="Pegá uno o varios links, uno por línea"
+              value={form.imageUrls}
+              onChange={(event) => setForm({ ...form, imageUrls: event.target.value })}
+            />
+          </label>
+          <p className="mt-2 text-xs text-gray-500">Podés usar archivos, links, o las dos cosas juntas.</p>
           {editingProductId && (productImages[editingProductId] || []).length > 0 ? (
             <div className="mt-3">
               <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-gray-400">Imagenes actuales</p>
