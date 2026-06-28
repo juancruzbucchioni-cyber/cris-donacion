@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import ProductCardBasic from '../components/ProductCardBasic';
 import ProductFilters from '../components/ProductFilters';
-import { ExhaustProduct, products as fallbackProducts } from '../data/products';
+import { ExhaustProduct } from '../data/products';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
 import { Product, ProductImage } from '../types/supabase';
 
@@ -28,7 +28,7 @@ function toCatalogProducts(productData: Product[], imageData: ProductImage[]): E
 export default function Products() {
   const [search, setSearch] = useState('');
   const [selectedMoto, setSelectedMoto] = useState('Todas');
-  const [catalogProducts, setCatalogProducts] = useState<ExhaustProduct[]>(fallbackProducts);
+  const [catalogProducts, setCatalogProducts] = useState<ExhaustProduct[]>([]);
   const [loadingCatalog, setLoadingCatalog] = useState(true);
   const motos = useMemo(
     () => ['Todas', ...Array.from(new Set(catalogProducts.map((product) => product.moto))).filter(Boolean)],
@@ -38,6 +38,7 @@ export default function Products() {
   useEffect(() => {
     async function loadCatalog() {
       if (!isSupabaseConfigured) {
+        setCatalogProducts([]);
         setLoadingCatalog(false);
         return;
       }
